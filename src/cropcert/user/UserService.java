@@ -11,13 +11,13 @@ import cropcert.user.common.AbstractService;
 import cropcert.user.util.PasswordEncoder;
 
 
-public class CollectionService extends AbstractService<User>{
+public class UserService extends AbstractService<User>{
 
 	@Inject
 	private ObjectMapper objectMappper;
 	
 	@Inject
-	public CollectionService(UserDao userDao) {
+	public UserService(UserDao userDao) {
 		super(userDao);
 	}
 

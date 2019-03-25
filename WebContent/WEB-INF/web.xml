@@ -39,7 +39,7 @@
 		</init-param>
 		<init-param>
 			<param-name>serverName</param-name>
-			<param-value>https://localhost:8443/cropcert/</param-value>
+			<param-value>https://localhost:8443/user/</param-value>
 		</init-param>
 		<init-param>
 			<param-name>gateway</param-name>
@@ -68,7 +68,7 @@
 		</init-param>
 		<init-param>
 			<param-name>serverName</param-name>
-			<param-value>https://localhost:8443/cropcert/</param-value>
+			<param-value>https://localhost:8443/user/</param-value>
 		</init-param>
 		<init-param>
 			<param-name>artifactParameterName</param-name>
@@ -108,9 +108,4 @@
 		<listener-class>cropcert.user.UserServletContextListener</listener-class>
 	</listener>
 	
-	<listener>
-        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
-    </listener>
-	
-
 </web-app>

@@ -8,7 +8,7 @@ public class UserModule extends AbstractModule{
 	@Override
 	protected void configure() {
 		bind(UserDao.class).in(Scopes.SINGLETON);
-		bind(CollectionService.class).in(Scopes.SINGLETON);
+		bind(UserService.class).in(Scopes.SINGLETON);
 		bind(UserEndPoint.class).in(Scopes.SINGLETON);
 	}
 }

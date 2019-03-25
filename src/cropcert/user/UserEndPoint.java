@@ -22,10 +22,10 @@ import com.google.inject.Inject;
 public class UserEndPoint {
 
 	
-	private CollectionService userService;
+	private UserService userService;
 	
 	@Inject
-	public UserEndPoint(CollectionService userService) {
+	public UserEndPoint(UserService userService) {
 		this.userService = userService;
 	}
 	
