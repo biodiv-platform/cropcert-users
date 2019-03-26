@@ -23,6 +23,7 @@ import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 import cropcert.user.farmer.FarmerModule;
+import cropcert.user.signup.SignupModule;
 
 public class UserServletContextListener extends GuiceServletContextListener {
 
@@ -51,7 +52,7 @@ public class UserServletContextListener extends GuiceServletContextListener {
 				
 				serve("/*").with(GuiceContainer.class);
 			}
-		}, new UserModule(), new FarmerModule());
+		}, new UserModule(), new FarmerModule(), new SignupModule());
 		
 		return injector; 
 	}

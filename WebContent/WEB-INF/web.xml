@@ -18,6 +18,16 @@
 	</error-page>
 	
 	<filter>
+		<filter-name>ExcludeUrlFilter</filter-name>
+		<filter-class>cropcert.user.filter.ExcludeUrlFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ExcludeUrlFilter</filter-name>
+		<url-pattern>/signup/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	
+	<filter>
 		<filter-name>SingleSignOutFilter</filter-name>
 		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
 		<init-param>
@@ -45,14 +55,14 @@
 			<param-name>gateway</param-name>
 			<param-value>false</param-value>
 		</init-param>
-<!-- 		<init-param>
+		<init-param>
 			<param-name>ignorePattern</param-name>
-			<param-value>/rest/v1/notification/*|/rest/v1/external/*</param-value>
+			<param-value>/signup/*|/rest/v1/notification/*|/rest/v1/external/*</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ignoreUrlPatternType</param-name>
 			<param-value>REGEX</param-value>
-		</init-param> -->
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>AuthenticationFilter</filter-name>
