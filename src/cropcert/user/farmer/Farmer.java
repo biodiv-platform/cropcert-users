@@ -31,7 +31,7 @@ public class Farmer extends User{
 	private int farmNumber;
 		
 	@Column (name = "num_of_coffee_plots", nullable = false)
-	private int numOfPlots;
+	private int numOfPlots;	
 
 	@Column (name = "num_of_coffee_trees", nullable = false)
 	private int numOfCoffeeTrees;
