@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name="users")
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public class User implements Serializable {
 
 	/**
