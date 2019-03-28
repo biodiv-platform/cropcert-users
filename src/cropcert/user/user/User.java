@@ -3,6 +3,8 @@ package cropcert.user.user;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name="users")
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
 public class User implements Serializable {
 
 	/**

@@ -1,6 +1,7 @@
 package cropcert.user.farmer;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -12,6 +13,7 @@ import cropcert.user.user.User;
 @Table(name="farmer")
 @XmlRootElement
 @PrimaryKeyJoinColumn(name="id")
+@DiscriminatorValue(value= "farmer")
 public class Farmer extends User{
 
 	/**
