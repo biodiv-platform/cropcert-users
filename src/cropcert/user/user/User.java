@@ -56,6 +56,9 @@ public class User implements Serializable {
 	
 	@Column(name = "sub_country") 
 	private String subCountry;
+	
+	@Column(name = "role", updatable = false, nullable = false)
+	private String role;
 
 	public long getId() {
 		return id;
@@ -129,4 +132,11 @@ public class User implements Serializable {
 		this.subCountry = subCountry;
 	}
 	
+	public String getRole() {
+		return role;
+	}
+	
+	public void setRole(String role) {
+		this.role = role;
+	}
 }
