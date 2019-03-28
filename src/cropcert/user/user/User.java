@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,9 +57,6 @@ public class User implements Serializable {
 	
 	@Column(name = "sub_country") 
 	private String subCountry;
-	
-	@Column(name = "role", updatable = false, nullable = false)
-	private String role;
 
 	public long getId() {
 		return id;
@@ -133,10 +131,7 @@ public class User implements Serializable {
 	}
 	
 	public String getRole() {
-		return role;
-	}
-	
-	public void setRole(String role) {
-		this.role = role;
+		DiscriminatorValue value = this.getClass().getAnnotation(DiscriminatorValue.class);
+		return value == null ? null : value.value();
 	}
 }
