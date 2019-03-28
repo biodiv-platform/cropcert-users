@@ -1,4 +1,4 @@
-package cropcert.user;
+package cropcert.user.user;
 
 import java.io.IOException;
 
@@ -27,5 +27,9 @@ public class UserService extends AbstractService<User>{
 		password = PasswordEncoder.encode(password);
 		user.setPassword(password);
 		return save(user);
+	}
+	
+	public User findByPropertyWithCondtion(String property, String value, String condition) {
+		return dao.findByPropertyWithCondition(property, value, condition);
 	}
 }

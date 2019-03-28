@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class  AbstractService<T> {
 
 	public Class<T> entityClass;
-	private  AbstractDao<T, Long> dao;
+	protected  AbstractDao<T, Long> dao;
 	
 	public AbstractService(AbstractDao<T, Long> dao) {
 		System.out.println("\nAbstractService constructor");

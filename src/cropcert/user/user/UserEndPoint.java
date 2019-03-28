@@ -1,4 +1,4 @@
-package cropcert.user;
+package cropcert.user.user;
 
 import java.io.IOException;
 import java.util.List;

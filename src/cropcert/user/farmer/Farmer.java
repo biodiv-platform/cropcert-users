@@ -6,7 +6,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cropcert.user.User;
+import cropcert.user.user.User;
 
 @Entity
 @Table(name="farmer")

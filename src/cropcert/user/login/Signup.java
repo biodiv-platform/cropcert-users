@@ -1,7 +1,6 @@
-package cropcert.user.signup;
+package cropcert.user.login;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,11 +16,7 @@ public class Signup {
 
 	@Inject FarmerEndPoint farmerEndPoint;
 	
-	@GET
-	public String getMessage() {
-		return "hello";
-	}
-	
+	@Path("farmer")
 	@POST
 	@Produces
 	@Consumes(MediaType.APPLICATION_JSON)

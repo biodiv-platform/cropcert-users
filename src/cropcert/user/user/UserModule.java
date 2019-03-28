@@ -1,4 +1,4 @@
-package cropcert.user;
+package cropcert.user.user;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
