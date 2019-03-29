@@ -16,6 +16,7 @@ import com.google.inject.Inject;
 
 import cropcert.user.user.User;
 import cropcert.user.user.UserService;
+import cropcert.user.util.UserDetailUtil;
 
 @Path("me")
 public class LoginEndPoint {
@@ -25,10 +26,7 @@ public class LoginEndPoint {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public User getUser(@Context HttpServletRequest request) {
-		
-		Assertion assertion = (Assertion) request.getSession().getAttribute("_const_cas_assertion_");
-		String email        = assertion.getPrincipal().getName();
-		return userService.findByPropertyWithCondtion("email", email, "="); 
+		return UserDetailUtil.getUserDetails(request, userService);
 	}
 	
 	@Path("role")
