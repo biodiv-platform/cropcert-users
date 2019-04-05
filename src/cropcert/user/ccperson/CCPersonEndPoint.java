@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -77,6 +78,15 @@ public class CCPersonEndPoint{
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Path("{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response delete(@PathParam("id") Long id) {
+		CCPerson ccPerson = ccPersonService.delete(id);
+		return Response.status(Status.ACCEPTED).entity(ccPerson).build();
 	}
 
 }

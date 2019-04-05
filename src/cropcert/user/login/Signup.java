@@ -1,8 +1,10 @@
 package cropcert.user.login;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,7 +26,7 @@ public class Signup {
 	
 	@Path("farmer")
 	@POST
-	@Produces
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addFarmer(String jsonString) {
 		return farmerEndPoint.save(jsonString);
@@ -32,7 +34,7 @@ public class Signup {
 	
 	@Path("cc")
 	@POST
-	@Produces
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addCCPerson(String jsonString) {
 		return ccPersonEndPoint.save(jsonString);
@@ -40,9 +42,36 @@ public class Signup {
 	
 	@Path("admin")
 	@POST
-	@Produces
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addAdmin(String jsonString) {
 		return adminEndPoint.save(jsonString);
+	}
+	
+	/**
+	 * This delete request kept for internal purpose only
+	 */
+	@Path("farmer/{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response deleteFarmer(@PathParam("id") Long id) {
+		return farmerEndPoint.delete(id);
+	}
+	
+	@Path("cc/{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response deleteManager(@PathParam("id") Long id) {
+		return ccPersonEndPoint.delete(id);
+	}
+	
+	@Path("admin/{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response deleteAdmin(@PathParam("id") Long id) {
+		return adminEndPoint.delete(id);
 	}
 }

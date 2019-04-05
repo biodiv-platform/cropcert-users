@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -123,4 +124,12 @@ public class FarmerEndPoint{
 		return null;
 	}
 
+	@Path("{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response delete(@PathParam("id") Long id) {
+		Farmer farmer = farmerService.delete(id);
+		return Response.status(Status.ACCEPTED).entity(farmer).build();
+	}
 }

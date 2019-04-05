@@ -32,11 +32,7 @@ public class FarmerService extends AbstractService<Farmer>{
 		return dao.findByPropertyWithCondition(property, value, condition);
 	}
 
-	public List<Farmer> getByPropertyWithCondtion(String property, String value, String condition, int limit, int offset) {
-		return dao.getByPropertyWithCondtion(property, value, condition, limit, offset);
-	}
-	
-	public List<Farmer> getByPropertyWithCondtion(String property, int value, String condition, int limit, int offset) {
+	public List<Farmer> getByPropertyWithCondtion(String property, Object value, String condition, int limit, int offset) {
 		return dao.getByPropertyWithCondtion(property, value, condition, limit, offset);
 	}
 }
