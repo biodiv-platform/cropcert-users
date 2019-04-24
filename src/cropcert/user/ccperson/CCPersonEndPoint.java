@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -42,19 +43,17 @@ public class CCPersonEndPoint{
 			return Response.status(Status.NO_CONTENT).build();
 		return Response.status(Status.CREATED).entity(ccPerson).build();
 	}
-	
+		
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<CCPerson> findAll() {
-		return ccPersonService.findAll();
-	}
-	
-	@Path("few")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<CCPerson> findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
-		return ccPersonService.findAll(limit, offset);
+	public List<CCPerson> findAll(
+			@DefaultValue("-1") @QueryParam("limit") Integer limit,
+			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		if(limit==-1 || offset ==-1)
+			return ccPersonService.findAll();
+		else
+			return ccPersonService.findAll(limit, offset);
 	}
 	
 	@POST
