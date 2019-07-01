@@ -25,7 +25,7 @@ public class UnionPerson extends User{
 	private String membershipId;
 	
 	@Column (name = "union_name")
-	private int unionName;
+	private String unionName;
 	
 
 	public String getMembershipId() {
@@ -36,11 +36,11 @@ public class UnionPerson extends User{
 		this.membershipId = membershipId;
 	}
 
-	public int getUnionName() {
+	public String getUnionName() {
 		return unionName;
 	}
 
-	public void setUnionName(int unionName) {
+	public void setUnionName(String unionName) {
 		this.unionName = unionName;
 	}
 	
