@@ -13,7 +13,7 @@ import cropcert.user.user.User;
 @Table(name="cc_person")
 @XmlRootElement
 @PrimaryKeyJoinColumn(name="id")
-@DiscriminatorValue(value= "manager")
+@DiscriminatorValue(value= "cc")
 public class CCPerson extends User{
 
 	/**
