@@ -36,11 +36,11 @@ public class COPerson extends User{
 		this.membershipId = membershipId;
 	}
 	
-	public int getFactoryCode() {
+	public int getCoCode() {
 		return coCode;
 	}
 	
-	public void setFactoryCode(int factoryCode) {
+	public void setCoCode(int factoryCode) {
 		this.coCode = factoryCode;
 	}
 
