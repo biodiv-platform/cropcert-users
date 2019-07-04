@@ -1,10 +1,10 @@
-package cropcert.user.coperson;
+package cropcert.user.cc;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,15 +22,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
+@Path("cc")
+public class CollectionCenterEndPoint{
 
-@Path("coUser")
-public class COPersonEndPoint{
-
-	private COPersonService coPersonService;
+	private CollectionCenterService collectionCenterService;
 	
 	@Inject
-	public COPersonEndPoint(COPersonService farmerService) {
-		this.coPersonService = farmerService;
+	public CollectionCenterEndPoint(CollectionCenterService collectionCenterService) {
+		this.collectionCenterService = collectionCenterService;
 	}
 	
 	@Path("{id}")
@@ -38,22 +37,37 @@ public class COPersonEndPoint{
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") Long id) {
-		COPerson ccPerson = coPersonService.findById(id);
-		if(ccPerson==null)
+		CollectionCenter collectionCenter = collectionCenterService.findById(id);
+		if(collectionCenter==null)
 			return Response.status(Status.NO_CONTENT).build();
-		return Response.status(Status.CREATED).entity(ccPerson).build();
+		return Response.status(Status.CREATED).entity(collectionCenter).build();
 	}
-		
+	
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<COPerson> findAll(
+	public List<CollectionCenter> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
 		if(limit==-1 || offset ==-1)
-			return coPersonService.findAll();
+			return collectionCenterService.findAll();
 		else
-			return coPersonService.findAll(limit, offset);
+			return collectionCenterService.findAll(limit, offset);
+	}
+
+	@Path("coOperativeId/{coOperativeId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<CollectionCenter> findAll(
+			@PathParam("coOperativeId") Long coOperativeId) {
+		return collectionCenterService.getByPropertyWithCondtion("coOperativeId", coOperativeId, "=", -1, -1);
+	}
+	
+	@Path("origin")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Map<String, Object> getOriginNames(@DefaultValue("-1") @QueryParam("ccCodes") String ccCodes) {
+		return collectionCenterService.getOriginNames(ccCodes);
 	}
 	
 	@POST
@@ -61,8 +75,8 @@ public class COPersonEndPoint{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response save(String  jsonString) {
 		try {
-			COPerson ccPerson = coPersonService.save(jsonString);
-			return Response.status(Status.CREATED).entity(ccPerson).build();
+			CollectionCenter collectionCenter = collectionCenterService.save(jsonString);
+			return Response.status(Status.CREATED).entity(collectionCenter).build();
 		} catch(ConstraintViolationException e) {
 			return Response.status(Status.CONFLICT).tag("Dublicate key").build();
 		}
@@ -77,15 +91,6 @@ public class COPersonEndPoint{
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@Path("{id}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.TEXT_PLAIN)
-	public Response delete(@PathParam("id") Long id) {
-		COPerson ccPerson = coPersonService.delete(id);
-		return Response.status(Status.ACCEPTED).entity(ccPerson).build();
 	}
 
 }

@@ -1,10 +1,9 @@
-package cropcert.user.coperson;
+package cropcert.user.co;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -23,14 +22,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
 
-@Path("coUser")
-public class COPersonEndPoint{
+@Path("co")
+public class CoOperativeEndPoint{
 
-	private COPersonService coPersonService;
+	private CoOperativeService coOperativeService;
 	
 	@Inject
-	public COPersonEndPoint(COPersonService farmerService) {
-		this.coPersonService = farmerService;
+	public CoOperativeEndPoint(CoOperativeService coOperativeService) {
+		this.coOperativeService = coOperativeService;
 	}
 	
 	@Path("{id}")
@@ -38,22 +37,32 @@ public class COPersonEndPoint{
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") Long id) {
-		COPerson ccPerson = coPersonService.findById(id);
-		if(ccPerson==null)
+		CoOperative coOperative = coOperativeService.findById(id);
+		if(coOperative==null)
 			return Response.status(Status.NO_CONTENT).build();
-		return Response.status(Status.CREATED).entity(ccPerson).build();
+		return Response.status(Status.CREATED).entity(coOperative).build();
 	}
-		
+	
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<COPerson> findAll(
-			@DefaultValue("-1") @QueryParam("limit") Integer limit,
-			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
-		if(limit==-1 || offset ==-1)
-			return coPersonService.findAll();
-		else
-			return coPersonService.findAll(limit, offset);
+	public List<CoOperative> findAll() {
+		return coOperativeService.findAll();
+	}
+	
+	@Path("coCode")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public CoOperative getByCoCode(@DefaultValue("-1") @QueryParam("coCode") String coCodeString) {
+		Integer coCode = Integer.parseInt(coCodeString);
+		return coOperativeService.findByPropertyWithCondtion("coCode", coCode, "=");
+	}
+	
+	@Path("few")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<CoOperative> findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+		return coOperativeService.findAll(limit, offset);
 	}
 	
 	@POST
@@ -61,8 +70,8 @@ public class COPersonEndPoint{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response save(String  jsonString) {
 		try {
-			COPerson ccPerson = coPersonService.save(jsonString);
-			return Response.status(Status.CREATED).entity(ccPerson).build();
+			CoOperative coOperative = coOperativeService.save(jsonString);
+			return Response.status(Status.CREATED).entity(coOperative).build();
 		} catch(ConstraintViolationException e) {
 			return Response.status(Status.CONFLICT).tag("Dublicate key").build();
 		}
@@ -77,15 +86,6 @@ public class COPersonEndPoint{
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@Path("{id}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.TEXT_PLAIN)
-	public Response delete(@PathParam("id") Long id) {
-		COPerson ccPerson = coPersonService.delete(id);
-		return Response.status(Status.ACCEPTED).entity(ccPerson).build();
 	}
 
 }

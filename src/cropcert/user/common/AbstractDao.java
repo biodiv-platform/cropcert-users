@@ -11,6 +11,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public abstract class AbstractDao<T, K extends Serializable> {
 
@@ -95,7 +96,7 @@ public abstract class AbstractDao<T, K extends Serializable> {
 	}
 	
 	//TODO:improve this to do dynamic finder on any property
-	public T findByPropertyWithCondition(String property, String value, String condition) {
+	public T findByPropertyWithCondition(String property, Object value, String condition) {
 		String queryStr = "" +
 			    "from "+daoType.getSimpleName()+" t " +
 			    "where t."+property+" "+condition+" :value" ;
@@ -122,6 +123,60 @@ public abstract class AbstractDao<T, K extends Serializable> {
 		Session session = sessionFactory.openSession();
 		org.hibernate.query.Query query = session.createQuery(queryStr);
 		query.setParameter("value", value);
+
+		List<T> resultList = new ArrayList<T>();
+		try {
+			if(limit>0 && offset >= 0)
+				query = query.setFirstResult(offset).setMaxResults(limit);
+			resultList = query.getResultList();
+			
+		} catch (NoResultException e) {
+			throw e;
+		}
+		session.close();
+		return resultList;
+	}
+	
+	public List<T> getByPropertyfromArray(String property, Object[] values, int limit, int offset) {
+		String queryStr = "" +
+			    "from "+daoType.getSimpleName()+" t " +
+			    "where t."+property+" in (:values)" +
+			    " order by id";
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery(queryStr);
+		query.setParameterList("values", values);
+
+		List<T> resultList = new ArrayList<T>();
+		try {
+			if(limit>0 && offset >= 0)
+				query = query.setFirstResult(offset).setMaxResults(limit);
+			resultList = query.getResultList();
+			
+		} catch (NoResultException e) {
+			throw e;
+		}
+		session.close();
+		return resultList;
+	}
+
+	public List<T> getByMultiplePropertyWithCondtion(String[] properties, Object[] values, Integer limit,
+			Integer offset) {
+		String queryStr = "from "+daoType.getSimpleName()+" t where ";
+		
+		for (int i = 0; i < properties.length; i++) {
+			String property = properties[i];
+			queryStr += " t."+property+" = :value"+i;
+			if (i<properties.length-1)
+				queryStr += " and ";
+		}
+			    
+		queryStr += " order by id";
+		Session session = sessionFactory.openSession();
+		org.hibernate.query.Query query = session.createQuery(queryStr);
+		
+		for (int i = 0; i < values.length; i++) {
+			query.setParameter("value"+i, values[i]);
+		}
 
 		List<T> resultList = new ArrayList<T>();
 		try {

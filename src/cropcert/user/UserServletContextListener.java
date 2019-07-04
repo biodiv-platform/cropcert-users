@@ -23,7 +23,9 @@ import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 import cropcert.user.admin.AdminModule;
+import cropcert.user.cc.CollectionCenterModule;
 import cropcert.user.ccperson.CCPersonModule;
+import cropcert.user.co.CoOperativeModule;
 import cropcert.user.coperson.COPersonModule;
 import cropcert.user.factoryperson.FactoryPersonModule;
 import cropcert.user.farmer.FarmerModule;
@@ -62,7 +64,7 @@ public class UserServletContextListener extends GuiceServletContextListener {
 			}
 		}, new UserModule(), new FarmerModule(), new LoginModule(), new AdminModule(),
 				new CCPersonModule(), new COPersonModule(), new FactoryPersonModule(),
-				new UnionPersonModule());
+				new UnionPersonModule(), new CollectionCenterModule(), new CoOperativeModule());
 		
 		return injector; 
 	}

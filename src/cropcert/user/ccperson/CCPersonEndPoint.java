@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
 
-@Path("cc")
+@Path("ccUser")
 public class CCPersonEndPoint{
 
 	private CCPersonService ccPersonService;
