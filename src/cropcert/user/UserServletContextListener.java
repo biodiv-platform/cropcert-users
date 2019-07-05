@@ -30,7 +30,8 @@ import cropcert.user.coperson.COPersonModule;
 import cropcert.user.factoryperson.FactoryPersonModule;
 import cropcert.user.farmer.FarmerModule;
 import cropcert.user.login.LoginModule;
-import cropcert.user.union.UnionPersonModule;
+import cropcert.user.union.UnionModule;
+import cropcert.user.unionperson.UnionPersonModule;
 import cropcert.user.user.UserModule;
 
 public class UserServletContextListener extends GuiceServletContextListener {
@@ -64,7 +65,8 @@ public class UserServletContextListener extends GuiceServletContextListener {
 			}
 		}, new UserModule(), new FarmerModule(), new LoginModule(), new AdminModule(),
 				new CCPersonModule(), new COPersonModule(), new FactoryPersonModule(),
-				new UnionPersonModule(), new CollectionCenterModule(), new CoOperativeModule());
+				new UnionModule(), new UnionPersonModule(), 
+				new CollectionCenterModule(), new CoOperativeModule());
 		
 		return injector; 
 	}

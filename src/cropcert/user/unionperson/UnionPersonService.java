@@ -1,4 +1,4 @@
-package cropcert.user.union;
+package cropcert.user.unionperson;
 
 import java.io.IOException;
 

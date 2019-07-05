@@ -1,9 +1,10 @@
-package cropcert.user.co;
+package cropcert.user.unionperson;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,14 +23,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
 
-@Path("co")
-public class CoOperativeEndPoint{
+@Path("unionPerson")
+public class UnionPersonEndPoint{
 
-	private CoOperativeService coOperativeService;
+	private UnionPersonService unionPersonService;
 	
 	@Inject
-	public CoOperativeEndPoint(CoOperativeService coOperativeService) {
-		this.coOperativeService = coOperativeService;
+	public UnionPersonEndPoint(UnionPersonService unionService) {
+		this.unionPersonService = unionService;
 	}
 	
 	@Path("{id}")
@@ -37,40 +38,22 @@ public class CoOperativeEndPoint{
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") Long id) {
-		CoOperative coOperative = coOperativeService.findById(id);
-		if(coOperative==null)
+		UnionPerson unionPerson = unionPersonService.findById(id);
+		if(unionPerson==null)
 			return Response.status(Status.NO_CONTENT).build();
-		return Response.status(Status.CREATED).entity(coOperative).build();
+		return Response.status(Status.CREATED).entity(unionPerson).build();
 	}
-	
+		
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<CoOperative> findAll() {
-		return coOperativeService.findAll();
-	}
-	
-	@Path("coCode")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public CoOperative getByCoCode(@DefaultValue("-1") @QueryParam("coCode") String coCodeString) {
-		Integer coCode = Integer.parseInt(coCodeString);
-		return coOperativeService.findByPropertyWithCondtion("coCode", coCode, "=");
-	}
-	
-	@Path("union")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<CoOperative> getByUnion(
-			@DefaultValue("-1") @QueryParam("unionCode") Long unionCode) {
-		return coOperativeService.getByPropertyWithCondtion("unionCode", unionCode, "=", -1, -1);
-	}
-	
-	@Path("few")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<CoOperative> findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
-		return coOperativeService.findAll(limit, offset);
+	public List<UnionPerson> findAll(
+			@DefaultValue("-1") @QueryParam("limit") Integer limit,
+			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		if(limit==-1 || offset ==-1)
+			return unionPersonService.findAll();
+		else
+			return unionPersonService.findAll(limit, offset);
 	}
 	
 	@POST
@@ -78,8 +61,8 @@ public class CoOperativeEndPoint{
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response save(String  jsonString) {
 		try {
-			CoOperative coOperative = coOperativeService.save(jsonString);
-			return Response.status(Status.CREATED).entity(coOperative).build();
+			UnionPerson unionPerson = unionPersonService.save(jsonString);
+			return Response.status(Status.CREATED).entity(unionPerson).build();
 		} catch(ConstraintViolationException e) {
 			return Response.status(Status.CONFLICT).tag("Dublicate key").build();
 		}
@@ -94,6 +77,15 @@ public class CoOperativeEndPoint{
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Path("{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response delete(@PathParam("id") Long id) {
+		UnionPerson unionPerson = unionPersonService.delete(id);
+		return Response.status(Status.ACCEPTED).entity(unionPerson).build();
 	}
 
 }

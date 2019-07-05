@@ -7,19 +7,19 @@ import com.google.inject.Inject;
 
 import cropcert.user.common.AbstractDao;
 
-public class UnionPersonDao extends AbstractDao<UnionPerson, Long>{
+public class UnionDao extends AbstractDao<Union, Long>{
 
 	@Inject
-	protected UnionPersonDao(SessionFactory sessionFactory) {
+	protected UnionDao(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public UnionPerson findById(Long id) {
+	public Union findById(Long id) {
 		Session session = sessionFactory.openSession();
-		UnionPerson entity = null;
+		Union entity = null;
 		try {
-			entity = session.get(UnionPerson.class, id);
+			entity = session.get(Union.class, id);
 		} catch (Exception e) {
 			throw e;
 		} finally {

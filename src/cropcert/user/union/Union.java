@@ -1,4 +1,4 @@
-package cropcert.user.co;
+package cropcert.user.union;
 
 import java.io.Serializable;
 
@@ -13,28 +13,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-@Table (name = "co_operative")
-public class CoOperative implements Serializable{
+@Table (name = "union_table")
+public class Union implements Serializable{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1216212900838354949L;
+	private static final long serialVersionUID = 109808509127731770L;
 
-	@Id 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "co_id_generator")
-	@SequenceGenerator(name = "co_id_generator", sequenceName = "co_id_seq", allocationSize = 50)
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "union_id_generator")
+	@SequenceGenerator(name = "union_id_generator", sequenceName = "union_id_seq", allocationSize = 50)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Long coId;
+	private Long unionId;
 	
-	@Column (name = "co_code", nullable=false)
-	private int coCode;
+	@Column (name = "cc_code", nullable=false)
+	private int unionCode;
 	
-	@Column (name = "co_name", nullable=false)
-	private String coName;
-	
-	@Column (name = "union_code")
-	private Long unionCode;
+	@Column (name = "cc_name", nullable=false)
+	private String unionName;
 	
 	@Column (name = "village")
 	private String village;
@@ -51,36 +48,28 @@ public class CoOperative implements Serializable{
 	@Column( name = "altitude")
 	private float altitude;
 
-	public Long getCoId() {
-		return coId;
+	public Long getUnionId() {
+		return unionId;
 	}
 
-	public void setCoId(Long coId) {
-		this.coId = coId;
+	public void setUnionId(Long unionId) {
+		this.unionId = unionId;
 	}
 
-	public int getCoCode() {
-		return coCode;
-	}
-
-	public void setCoCode(int coCode) {
-		this.coCode = coCode;
-	}
-
-	public String getCoName() {
-		return coName;
-	}
-
-	public void setCoName(String coName) {
-		this.coName = coName;
-	}
-	
-	public Long getUnionCode() {
+	public int getUnionCode() {
 		return unionCode;
 	}
-	
-	public void setUnionCode(Long unionCode) {
+
+	public void setUnionCode(int unionCode) {
 		this.unionCode = unionCode;
+	}
+
+	public String getUnionName() {
+		return unionName;
+	}
+
+	public void setUnionName(String unionName) {
+		this.unionName = unionName;
 	}
 
 	public String getVillage() {
@@ -121,6 +110,5 @@ public class CoOperative implements Serializable{
 
 	public void setAltitude(float altitude) {
 		this.altitude = altitude;
-	}
-	
+	}	
 }

@@ -1,4 +1,4 @@
-package cropcert.user.union;
+package cropcert.user.unionperson;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -24,6 +24,9 @@ public class UnionPerson extends User{
 	@Column(name = "membership_id", nullable=false)
 	private String membershipId;
 	
+	@Column (name = "union_code")
+	private Long unionCode;
+	
 	@Column (name = "union_name")
 	private String unionName;
 	
@@ -36,6 +39,14 @@ public class UnionPerson extends User{
 		this.membershipId = membershipId;
 	}
 
+	public Long getUnionCode() {
+		return unionCode;
+	}
+	
+	public void setUnionCode(Long unionCode) {
+		this.unionCode = unionCode;
+	}
+	
 	public String getUnionName() {
 		return unionName;
 	}

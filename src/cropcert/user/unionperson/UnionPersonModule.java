@@ -1,4 +1,4 @@
-package cropcert.user.union;
+package cropcert.user.unionperson;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;

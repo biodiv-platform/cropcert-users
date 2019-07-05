@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,15 +21,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
-
 @Path("union")
-public class UnionPersonEndPoint{
+public class UnionEndPoint{
 
-	private UnionPersonService unionPersonService;
+	private UnionService unionService;
 	
 	@Inject
-	public UnionPersonEndPoint(UnionPersonService unionService) {
-		this.unionPersonService = unionService;
+	public UnionEndPoint(UnionService collectionCenterService) {
+		this.unionService = collectionCenterService;
 	}
 	
 	@Path("{id}")
@@ -38,31 +36,31 @@ public class UnionPersonEndPoint{
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") Long id) {
-		UnionPerson unionPerson = unionPersonService.findById(id);
-		if(unionPerson==null)
+		Union union = unionService.findById(id);
+		if(union==null)
 			return Response.status(Status.NO_CONTENT).build();
-		return Response.status(Status.CREATED).entity(unionPerson).build();
+		return Response.status(Status.CREATED).entity(union).build();
 	}
-		
+	
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<UnionPerson> findAll(
+	public List<Union> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
 		if(limit==-1 || offset ==-1)
-			return unionPersonService.findAll();
+			return unionService.findAll();
 		else
-			return unionPersonService.findAll(limit, offset);
+			return unionService.findAll(limit, offset);
 	}
-	
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response save(String  jsonString) {
 		try {
-			UnionPerson unionPerson = unionPersonService.save(jsonString);
-			return Response.status(Status.CREATED).entity(unionPerson).build();
+			Union union = unionService.save(jsonString);
+			return Response.status(Status.CREATED).entity(union).build();
 		} catch(ConstraintViolationException e) {
 			return Response.status(Status.CONFLICT).tag("Dublicate key").build();
 		}
@@ -77,15 +75,6 @@ public class UnionPersonEndPoint{
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@Path("{id}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.TEXT_PLAIN)
-	public Response delete(@PathParam("id") Long id) {
-		UnionPerson ccPerson = unionPersonService.delete(id);
-		return Response.status(Status.ACCEPTED).entity(ccPerson).build();
 	}
 
 }

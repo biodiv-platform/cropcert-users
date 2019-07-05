@@ -40,6 +40,12 @@ public class User implements Serializable {
 	@Column(name = "password", nullable = false) 
 	private String password;
 	
+	@Column(name = "first_name")
+	private String firstName;
+	
+	@Column(name = "last_name")
+	private String lastName;
+	
 	@Column(name = "date_of_birth") 
 	private String dateOfBirth;
 	
@@ -82,6 +88,22 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
