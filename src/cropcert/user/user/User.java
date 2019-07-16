@@ -16,9 +16,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="users")
 @XmlRootElement
+@JsonIgnoreProperties
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public class User implements Serializable {
@@ -34,7 +37,7 @@ public class User implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
-	@Column(name = "user_name", nullable = false)	
+	@Column(name = "user_name", nullable = false, unique = true)	
 	private String userName;
 	
 	@Column(name = "password", nullable = false) 

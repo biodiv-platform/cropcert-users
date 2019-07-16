@@ -66,7 +66,8 @@ public class CollectionCenterEndPoint{
 	@Path("origin")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Map<String, Object> getOriginNames(@DefaultValue("-1") @QueryParam("ccCodes") String ccCodes) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Map<String, Object> getOriginNames(@DefaultValue("") @QueryParam("ccCodes") String ccCodes) {
 		return collectionCenterService.getOriginNames(ccCodes);
 	}
 	

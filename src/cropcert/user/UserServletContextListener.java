@@ -65,7 +65,7 @@ public class UserServletContextListener extends GuiceServletContextListener {
 			}
 		}, new UserModule(), new FarmerModule(), new LoginModule(), new AdminModule(),
 				new CCPersonModule(), new COPersonModule(), new FactoryPersonModule(),
-				new UnionModule(), new UnionPersonModule(), 
+				new UnionModule(), new UnionPersonModule(),
 				new CollectionCenterModule(), new CoOperativeModule());
 		
 		return injector; 

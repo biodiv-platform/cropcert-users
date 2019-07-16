@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -52,6 +53,13 @@ public class UserEndPoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
 		return userService.findAll(limit, offset);
+	}
+	
+	@Path("email/{email}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public User getByEmail(@DefaultValue("") @PathParam("email") String email) { 
+		return userService.findByPropertyWithCondtion("email", email, "=");
 	}
 	
 	@POST
