@@ -27,10 +27,10 @@ public class Union implements Serializable{
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long unionId;
 	
-	@Column (name = "cc_code", nullable=false)
+	@Column (name = "union_code", nullable=false)
 	private int unionCode;
 	
-	@Column (name = "cc_name", nullable=false)
+	@Column (name = "union_name", nullable=false)
 	private String unionName;
 	
 	@Column (name = "village")
