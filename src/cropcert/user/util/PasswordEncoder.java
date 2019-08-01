@@ -1,9 +1,5 @@
 package cropcert.user.util;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 public class PasswordEncoder {
 
 	    private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
@@ -25,28 +21,20 @@ public class PasswordEncoder {
 	        this.encodingAlgorithm = encodingAlgorithm;
 	    }
 
-	    public static String encode(String password) {
-	        if (password == null) {
-	            return null;
-	        }
-	        
-	        MessageDigest messageDigest;
-			try {
-				
-				messageDigest = MessageDigest.getInstance(encodingAlgorithm);
-				messageDigest.update(password.getBytes(characterEncoding));
-				final byte[] digest = messageDigest.digest();
-				return getFormattedText(digest);
-				
-			} catch (NoSuchAlgorithmException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-	    }
+	/*
+	 * public static String encode(String password) { if (password == null) { return
+	 * null; }
+	 * 
+	 * MessageDigest messageDigest; try {
+	 * 
+	 * messageDigest = MessageDigest.getInstance(encodingAlgorithm);
+	 * messageDigest.update(password.getBytes(characterEncoding)); final byte[]
+	 * digest = messageDigest.digest(); return getFormattedText(digest);
+	 * 
+	 * } catch (NoSuchAlgorithmException e1) { // TODO Auto-generated catch block
+	 * e1.printStackTrace(); } catch (UnsupportedEncodingException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } return null; }
+	 */
 
 	    /**
 	     * Takes the raw bytes from the digest and formats them correct.
@@ -63,8 +51,4 @@ public class PasswordEncoder {
 	        }
 	        return buf.toString();
 	    }	
-	    public static void main(String[] args) {
-	    	
-			System.out.println(PasswordEncoder.encode("p"));
-		}
 }

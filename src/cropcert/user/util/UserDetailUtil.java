@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jasig.cas.client.validation.Assertion;
 
-import cropcert.user.user.User;
-import cropcert.user.user.UserService;
+import cropcert.user.model.User;
+import cropcert.user.service.UserService;
 
 public class UserDetailUtil {
 

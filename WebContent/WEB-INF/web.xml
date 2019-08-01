@@ -17,7 +17,7 @@
 		<location>/error.jsp</location>
 	</error-page>
 	
-	<filter>
+	<!-- <filter>
 		<filter-name>ExcludeUrlFilter</filter-name>
 		<filter-class>cropcert.user.filter.ExcludeUrlFilter</filter-class>
 	</filter>
@@ -101,7 +101,7 @@
 	<filter-mapping>
 		<filter-name>RequestWrapperFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 
 	<filter>
