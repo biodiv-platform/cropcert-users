@@ -38,13 +38,13 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 		
 		for(String value : ccCodesString.split(",")) {
 			Long ccCode = Long.parseLong(value);
-			CollectionCenter collectionCenter = findById(ccCode);
+			CollectionCenter collectionCenter = findByPropertyWithCondtion("code", ccCode, "=");
 			coOperativeId = collectionCenter.getCoOperativeId();
 			ccNames.add(collectionCenter.getName());
 		}
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(coOperativeId != -1) {
+		if(coOperativeId != null && coOperativeId != -1) {
 			CoOperative coOperative = coOperativeService.findById(coOperativeId);
 			result.put("coOperativeName", coOperative.getName());
 		}

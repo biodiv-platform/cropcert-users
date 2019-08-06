@@ -60,7 +60,7 @@ public class CoOperativeApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	public CoOperative getByCoCode(@DefaultValue("-1") @QueryParam("coCode") String coCodeString) {
 		Integer coCode = Integer.parseInt(coCodeString);
-		return coOperativeService.findByPropertyWithCondtion("coCode", coCode, "=");
+		return coOperativeService.findByPropertyWithCondtion("code", coCode, "=");
 	}
 	
 	@Path("union")

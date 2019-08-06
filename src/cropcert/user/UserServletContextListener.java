@@ -18,7 +18,7 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 import cropcert.user.api.APIModule;
 import cropcert.user.dao.DaoModule;
-import cropcert.user.model.ModelModule;
+import cropcert.user.util.AuthUtility;
 import cropcert.user.util.Utility;
 
 public class UserServletContextListener extends GuiceServletContextListener {
@@ -46,6 +46,7 @@ public class UserServletContextListener extends GuiceServletContextListener {
 				bind(SessionFactory.class).toInstance(sessionFactory);
 				bind(ObjectMapper.class).in(Scopes.SINGLETON);
 				bind(Logout.class).in(Scopes.SINGLETON);
+				bind(AuthUtility.class).in(Scopes.SINGLETON);
 				
 				Map<String, String> props = new HashMap<String, String>();
 				props.put("javax.ws.rs.Application", MyApplication.class.getName());
@@ -53,7 +54,7 @@ public class UserServletContextListener extends GuiceServletContextListener {
 				
 				serve("/api/*").with(GuiceContainer.class, props);
 			}
-		}, new DaoModule(), new ModelModule(), new APIModule());
+		}, new DaoModule(), new APIModule());
 		
 		return injector; 
 	}

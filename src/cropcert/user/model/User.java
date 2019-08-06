@@ -17,16 +17,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
 @Table(name="users")
 @XmlRootElement
 @JsonIgnoreProperties
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
-/*
- * @ApiModel( value = "User", subTypes = {Admin.class, CCPerson.class,
- * COPerson.class, FactoryPerson.class, Farmer.class, UnionPerson.class})
- */
+@ApiModel( value = "User", subTypes = {Admin.class, CollectionCenterPerson.class,
+		CoOperativePerson.class, FactoryPerson.class, Farmer.class, UnionPerson.class})
 public class User implements Serializable {
 
 	/**

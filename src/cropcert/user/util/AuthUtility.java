@@ -3,24 +3,24 @@ package cropcert.user.util;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
 
-import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.Pac4jConstants;
 import org.pac4j.core.profile.CommonProfile;
-import org.pac4j.core.profile.ProfileManager;
 import org.pac4j.core.profile.definition.CommonProfileDefinition;
 import org.pac4j.core.profile.jwt.JwtClaims;
 
+import cropcert.user.filter.JWTTokenValidationFilter;
 import cropcert.user.model.User;
 
 public class AuthUtility {
 
-	private static final int ACCESS_TOKEN_EXPIRY_TIME_IN_DAYS = 10;
-	private static final int EXPIRY_TIME_IN_DAYS = 30;
-
+	private static final long ACCESS_TOKEN_EXPIRY_TIME_IN_DAYS = 1;
+	private static final long EXPIRY_TIME_IN_DAYS = 30;
+	
 	public static CommonProfile createUserProfile(User user) {
 		if (user == null)
 			return null;
@@ -72,8 +72,17 @@ public class AuthUtility {
 	}
 
 	public static CommonProfile getCurrentUser(HttpServletRequest request) {
-		ProfileManager<CommonProfile> profileManager = new ProfileManager<CommonProfile>(new J2EContext(request, null));
-		Optional<CommonProfile> profile = profileManager.get(true);
-		return profile.get();
+		return getCurrentUser(request, null);
 	}
+
+	public static CommonProfile getCommonProfile(HttpServletRequest request) {
+		String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+		return JWTTokenValidationFilter.getCommonProfile(authorizationHeader);
+	}
+	
+	public static CommonProfile getCurrentUser(HttpServletRequest request, HttpServletResponse response) {
+		return getCommonProfile(request);
+	}
+ 
 }
