@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-import org.apache.tomcat.util.buf.HexUtils;
+import org.bouncycastle.util.encoders.Hex;
 
 import com.google.inject.Inject;
 
@@ -98,7 +98,7 @@ public class MessageDigestPasswordEncoder {
 		} 
 		else { 
 			//return new String(Hex.encode(digest));
-			return HexUtils.toHexString(digest);
+			return Hex.toHexString(digest);
 		}	 
 	}
 
