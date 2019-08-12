@@ -23,8 +23,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
 import cropcert.user.model.CoOperativePerson;
+import cropcert.user.model.FactoryPerson;
 import cropcert.user.service.CoOperativePersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @Path("coUser")
@@ -42,6 +44,9 @@ public class CoOperativePersonApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get co-operative person by id",
+			response = CoOperativePerson.class)
 	public Response find(@PathParam("id") Long id) {
 		CoOperativePerson ccPerson = coPersonService.findById(id);
 		if(ccPerson==null)
@@ -52,6 +57,9 @@ public class CoOperativePersonApi{
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get all the factory persons",
+			response = List.class)
 	public List<CoOperativePerson> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
@@ -64,10 +72,13 @@ public class CoOperativePersonApi{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the factory person",
+			response = FactoryPerson.class)
 	public Response save(String  jsonString) {
 		try {
-			CoOperativePerson ccPerson = coPersonService.save(jsonString);
-			return Response.status(Status.CREATED).entity(ccPerson).build();
+			CoOperativePerson coPerson = coPersonService.save(jsonString);
+			return Response.status(Status.CREATED).entity(coPerson).build();
 		} catch(ConstraintViolationException e) {
 			return Response.status(Status.CONFLICT).tag("Dublicate key").build();
 		}
@@ -88,6 +99,9 @@ public class CoOperativePersonApi{
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Delete the factory person",
+			response = FactoryPerson.class)
 	public Response delete(@PathParam("id") Long id) {
 		CoOperativePerson ccPerson = coPersonService.delete(id);
 		return Response.status(Status.ACCEPTED).entity(ccPerson).build();

@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import cropcert.user.model.CollectionCenterPerson;
 import cropcert.user.service.CollectionCenterPersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @Path("ccUser")
@@ -42,6 +43,9 @@ public class CollectionCenterPersonApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get cc person by id",
+			response = CollectionCenterPerson.class)
 	public Response find(@PathParam("id") Long id) {
 		CollectionCenterPerson ccPerson = ccPersonService.findById(id);
 		if(ccPerson==null)
@@ -52,6 +56,9 @@ public class CollectionCenterPersonApi{
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get all the cc persons",
+			response = List.class)
 	public List<CollectionCenterPerson> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
@@ -64,6 +71,9 @@ public class CollectionCenterPersonApi{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the cc person",
+			response = CollectionCenterPerson.class)
 	public Response save(String  jsonString) {
 		try {
 			CollectionCenterPerson ccPerson = ccPersonService.save(jsonString);
@@ -88,6 +98,9 @@ public class CollectionCenterPersonApi{
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Delete the cc person by id",
+			response = CollectionCenterPerson.class)
 	public Response delete(@PathParam("id") Long id) {
 		CollectionCenterPerson ccPerson = ccPersonService.delete(id);
 		return Response.status(Status.ACCEPTED).entity(ccPerson).build();

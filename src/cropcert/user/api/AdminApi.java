@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import cropcert.user.model.Admin;
 import cropcert.user.service.AdminService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @Path("admin")
@@ -42,6 +43,9 @@ public class AdminApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get the admin by id",
+			response = Admin.class)
 	public Response find(@PathParam("id") Long id) {
 		Admin admin = adminService.findById(id);
 		if(admin==null)
@@ -52,6 +56,9 @@ public class AdminApi{
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get all the admins",
+			response = List.class)
 	public List<Admin> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
@@ -64,6 +71,9 @@ public class AdminApi{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the admin",
+			response = Admin.class)
 	public Response save(String  jsonString) {
 		try {
 			Admin admin = adminService.save(jsonString);
@@ -88,6 +98,9 @@ public class AdminApi{
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Delete the admin by id",
+			response = Admin.class)
 	public Response delete(@PathParam("id") Long id) {
 		Admin admin = adminService.delete(id);
 		return Response.status(Status.ACCEPTED).entity(admin).build();

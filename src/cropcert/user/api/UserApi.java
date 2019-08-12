@@ -1,7 +1,6 @@
 package cropcert.user.api;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -10,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -50,30 +48,32 @@ public class UserApi {
 		return Response.status(Status.CREATED).entity(user).build();
 	}
 	
-	@Path("all")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> findAll() {
-		return userService.findAll();
-	}
-	
-	@Path("few")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
-		return userService.findAll(limit, offset);
-	}
-	
 	@Path("email/{email}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get the user by email-id",
+			response = User.class)
 	public User getByEmail(@DefaultValue("") @PathParam("email") String email) { 
 		return userService.findByPropertyWithCondtion("email", email, "=");
+	}
+	
+	@Path("userName/{userName}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get the user by userName",
+			response = User.class)
+	public User getByUserName(@DefaultValue("") @PathParam("userName") String userName) { 
+		return userService.findByPropertyWithCondtion("userName", userName, "=");
 	}
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the user",
+			response = User.class)
 	public Response save(String  jsonString) {
 		try {
 			User user = userService.save(jsonString);

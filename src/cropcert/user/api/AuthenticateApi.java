@@ -28,6 +28,7 @@ import cropcert.user.util.AuthUtility;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -49,6 +50,9 @@ public class AuthenticateApi {
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
 	                      required = true, dataType = "string", paramType = "header") })
+	@ApiOperation(
+			value = "Get the current user",
+			response = CommonProfile.class)
 	public CommonProfile getUser(
 			@Context HttpServletRequest request,
 			@Context HttpServletResponse response
@@ -60,6 +64,9 @@ public class AuthenticateApi {
 	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@ApiOperation(
+			value = "Authenticate the user by userName and password",
+			response = Map.class)
 	public Response authenticate(
 			@FormParam("userName") String userName, 
 			@FormParam("password") String password
@@ -86,6 +93,9 @@ public class AuthenticateApi {
 	@ApiImplicitParams({
 	    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
 	                      required = true, dataType = "string", paramType = "header") })
+	@ApiOperation(
+			value = "Get new set of refresh token and access token",
+			response = Map.class)
 	public Response getNewSetOfTokens(
 			@Context HttpServletRequest request,
 			@Context HttpServletResponse response, 

@@ -32,6 +32,7 @@ import cropcert.user.service.FarmerService;
 import cropcert.user.service.UserService;
 import cropcert.user.util.UserDetailUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @Path("farmer")
@@ -51,6 +52,9 @@ public class FarmerApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get farmer by id",
+			response = Farmer.class)
 	public Response find(@PathParam("id") Long id) {
 		Farmer farmer = farmerService.findById(id);
 		if(farmer==null)
@@ -61,6 +65,9 @@ public class FarmerApi{
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get all the farmers",
+			response = List.class)
 	public List<Farmer> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
@@ -69,20 +76,13 @@ public class FarmerApi{
 		else
 			return farmerService.findAll(limit, offset);
 	}
-	
-	/*
-	 * @Path("few")
-	 * 
-	 * @GET
-	 * 
-	 * @Produces(MediaType.APPLICATION_JSON) public List<Farmer>
-	 * findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
-	 * return farmerService.findAll(limit, offset); }
-	 */
-	
+		
 	@Path("collection")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get list of farmer by collection center",
+			response = List.class)
 	public List<Farmer> getFarmerForCollectionCenter(@Context HttpServletRequest request, 
 			@DefaultValue("-1") @QueryParam("ccCode") String ccCodeString,
 			@DefaultValue("-1") @QueryParam("limit") String limitString,
@@ -108,6 +108,9 @@ public class FarmerApi{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the farmer",
+			response = Farmer.class)
 	public Response save(String  jsonString) {
 		try {
 			Farmer farmer = farmerService.save(jsonString);
@@ -132,6 +135,9 @@ public class FarmerApi{
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Delete the farmer by id",
+			response = Farmer.class)
 	public Response delete(@PathParam("id") Long id) {
 		Farmer farmer = farmerService.delete(id);
 		return Response.status(Status.ACCEPTED).entity(farmer).build();

@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import cropcert.user.model.CollectionCenter;
 import cropcert.user.service.CollectionCenterService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("cc")
 @Api("Collection  center")
@@ -41,6 +42,9 @@ public class CollectionCenterApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get cc by id",
+			response = CollectionCenter.class)
 	public Response find(@PathParam("id") Long id) {
 		CollectionCenter collectionCenter = collectionCenterService.findById(id);
 		if(collectionCenter==null)
@@ -51,6 +55,9 @@ public class CollectionCenterApi{
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get all the collection centers",
+			response = List.class)
 	public List<CollectionCenter> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
@@ -63,6 +70,9 @@ public class CollectionCenterApi{
 	@Path("coOperativeId/{coOperativeId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get list of cc by co-operative code",
+			response = List.class)
 	public List<CollectionCenter> findAll(
 			@PathParam("coOperativeId") Long coOperativeId) {
 		return collectionCenterService.getByPropertyWithCondtion("coOperativeId", coOperativeId, "=", -1, -1);
@@ -72,6 +82,9 @@ public class CollectionCenterApi{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get map of origins by cc codes",
+			response = Map.class)
 	public Map<String, Object> getOriginNames(@DefaultValue("") @QueryParam("ccCodes") String ccCodes) {
 		return collectionCenterService.getOriginNames(ccCodes);
 	}
@@ -79,6 +92,9 @@ public class CollectionCenterApi{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the cc",
+			response = CollectionCenter.class)
 	public Response save(String  jsonString) {
 		try {
 			CollectionCenter collectionCenter = collectionCenterService.save(jsonString);

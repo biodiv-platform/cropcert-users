@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import cropcert.user.model.CoOperative;
 import cropcert.user.service.CoOperativeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @Path("co")
@@ -41,6 +42,9 @@ public class CoOperativeApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get co-operative by id",
+			response = CoOperative.class)
 	public Response find(@PathParam("id") Long id) {
 		CoOperative coOperative = coOperativeService.findById(id);
 		if(coOperative==null)
@@ -48,16 +52,12 @@ public class CoOperativeApi{
 		return Response.status(Status.CREATED).entity(coOperative).build();
 	}
 	
-	@Path("all")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<CoOperative> findAll() {
-		return coOperativeService.findAll();
-	}
-	
 	@Path("coCode")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get co-opearative by its code person by id",
+			response = CoOperative.class)
 	public CoOperative getByCoCode(@DefaultValue("-1") @QueryParam("coCode") String coCodeString) {
 		Integer coCode = Integer.parseInt(coCodeString);
 		return coOperativeService.findByPropertyWithCondtion("code", coCode, "=");
@@ -66,21 +66,33 @@ public class CoOperativeApi{
 	@Path("union")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get list of co-operative from given union",
+			response = List.class)
 	public List<CoOperative> getByUnion(
 			@DefaultValue("-1") @QueryParam("unionCode") Long unionCode) {
 		return coOperativeService.getByPropertyWithCondtion("unionCode", unionCode, "=", -1, -1);
 	}
 	
-	@Path("few")
+	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get all the co-operative",
+			response = List.class)
 	public List<CoOperative> findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
-		return coOperativeService.findAll(limit, offset);
+		if(limit==-1 || offset ==-1)
+			return coOperativeService.findAll();
+		else
+			return coOperativeService.findAll(limit, offset);
 	}
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the co-operative",
+			response = CoOperative.class)
 	public Response save(String  jsonString) {
 		try {
 			CoOperative coOperative = coOperativeService.save(jsonString);

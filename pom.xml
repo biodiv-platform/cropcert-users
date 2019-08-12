@@ -266,21 +266,28 @@
 			</plugin>
 
 			<plugin>
-				<groupId>io.openapitools.swagger</groupId>
+				<groupId>com.github.kongchen</groupId>
 				<artifactId>swagger-maven-plugin</artifactId>
-				<version>${swagger-maven-plugin.version}</version>
+				<version>3.1.1</version>
 				<configuration>
-					<resourcePackages>
-						<resourcePackage>cropcert</resourcePackage>
-					</resourcePackages>
-					<useResourcePackagesChildren>true</useResourcePackagesChildren>
-					<outputDirectory>${basedir}/target/</outputDirectory>
-					<outputFormats>
-						<outputFormat>JSON</outputFormat>
-						<outputFormat>YAML</outputFormat>
-					</outputFormats>
-					<prettyPrint>TRUE</prettyPrint>
-					<attachSwaggerArtifact>TRUE</attachSwaggerArtifact>
+					<apiSources>
+						<apiSource>
+							<springmvc>false</springmvc>
+							<locations>
+								cropcert
+							</locations>
+							<schemes>http,https</schemes>
+							<host>localhost:8080</host>
+							<basePath>/${warName}/api</basePath>
+							<info>
+								<title>Swagger file generation</title>
+								<version>v1</version>
+							</info>
+							<outputPath>${project.basedir}/target</outputPath>
+							<outputFormats>json</outputFormats>
+							<swaggerDirectory>${project.basedir}/target</swaggerDirectory>
+						</apiSource>
+					</apiSources>
 				</configuration>
 				<executions>
 					<execution>

@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import cropcert.user.model.Union;
 import cropcert.user.service.UnionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("union")
 @Api("Union")
@@ -40,6 +41,9 @@ public class UnionApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get the Union by id",
+			response = Union.class)
 	public Response find(@PathParam("id") Long id) {
 		Union union = unionService.findById(id);
 		if(union==null)
@@ -50,6 +54,9 @@ public class UnionApi{
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get all the Union",
+			response = Union.class)
 	public List<Union> findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
@@ -62,6 +69,9 @@ public class UnionApi{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the Union",
+			response = Union.class)
 	public Response save(String  jsonString) {
 		try {
 			Union union = unionService.save(jsonString);

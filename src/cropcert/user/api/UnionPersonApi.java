@@ -1,17 +1,14 @@
 package cropcert.user.api;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -25,6 +22,7 @@ import com.google.inject.Inject;
 import cropcert.user.model.UnionPerson;
 import cropcert.user.service.UnionPersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @Path("unionPerson")
@@ -42,28 +40,22 @@ public class UnionPersonApi{
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get the Union person by id",
+			response = UnionPerson.class)
 	public Response find(@PathParam("id") Long id) {
 		UnionPerson unionPerson = unionPersonService.findById(id);
 		if(unionPerson==null)
 			return Response.status(Status.NO_CONTENT).build();
 		return Response.status(Status.CREATED).entity(unionPerson).build();
 	}
-		
-	@Path("all")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<UnionPerson> findAll(
-			@DefaultValue("-1") @QueryParam("limit") Integer limit,
-			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
-		if(limit==-1 || offset ==-1)
-			return unionPersonService.findAll();
-		else
-			return unionPersonService.findAll(limit, offset);
-	}
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Save the union person",
+			response = UnionPerson.class)
 	public Response save(String  jsonString) {
 		try {
 			UnionPerson unionPerson = unionPersonService.save(jsonString);
@@ -88,9 +80,11 @@ public class UnionPersonApi{
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.TEXT_PLAIN)
+	@ApiOperation(
+			value = "Delete the Union person by id",
+			response = UnionPerson.class)
 	public Response delete(@PathParam("id") Long id) {
 		UnionPerson unionPerson = unionPersonService.delete(id);
 		return Response.status(Status.ACCEPTED).entity(unionPerson).build();
 	}
-
 }
