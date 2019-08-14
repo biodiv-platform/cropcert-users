@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 
 import javax.servlet.Filter;
@@ -28,46 +26,46 @@ import cropcert.user.service.AuthenticateService;
 
 public class JWTTokenValidationFilter implements Filter {
 
-	private static JwtAuthenticator jwtAuthenticator;	
-	private static List<String> excludedUrls;
-	
+	private static JwtAuthenticator jwtAuthenticator;
+	private static String[] excludedUrls;
+
 	@Override
 	public void destroy() {
-	
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
+
 		String path = ((HttpServletRequest) request).getServletPath();
-		
-		if(Stream.of(excludedUrls.toArray(new String[0]))
-				.anyMatch(path::startsWith)) {
+
+		// exclude all the urls which starts with mention prefix in web.xml.
+		if (Stream.of(excludedUrls).anyMatch(path::startsWith)) {
 			chain.doFilter(request, response);
 			return;
 		}
-		
-        String authorizationHeader = ((HttpServletRequest)request).getHeader(HttpHeaders.AUTHORIZATION);
 
-        // Check if the HTTP Authorization header is present and formatted correctly
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-        	((HttpServletResponse) response).setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
-        	return;
-        }
+		String authorizationHeader = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
 
-		CommonProfile commonProfile = getCommonProfile(authorizationHeader);
-		if(commonProfile == null) {
+		// Check if the HTTP Authorization header is present and formatted correctly
+		if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 			((HttpServletResponse) response).setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
 			return;
 		}
-		
+
+		CommonProfile commonProfile = getCommonProfile(authorizationHeader);
+		if (commonProfile == null) {
+			((HttpServletResponse) response).setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+			return;
+		}
+
 		chain.doFilter(request, response);
 	}
-	
+
 	public static CommonProfile getCommonProfile(String authorizationHeader) {
 		// Extract the token from the HTTP Authorization header
-        String token = authorizationHeader.substring("Bearer".length()).trim();
+		String token = authorizationHeader.substring("Bearer".length()).trim();
 		return jwtAuthenticator.validateToken(token);
 	}
 
@@ -86,11 +84,12 @@ public class JWTTokenValidationFilter implements Filter {
 			jwtAuthenticator.addSignatureConfiguration(new RSASignatureConfiguration(rsaKeyPair));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
-		} 
-		
-		String excludePatterns = filterConfig.getInitParameter("excludedUrls");
-		excludedUrls = Arrays.asList(excludePatterns.split(","));
-	}
+		}
 
+		String excludePatterns = filterConfig.getInitParameter("excludedUrls");
+		excludedUrls = excludePatterns.split(",");
+		for(int i=0;i<excludedUrls.length;i++)
+			excludedUrls[i] = excludedUrls[i].trim();
+	}
 
 }

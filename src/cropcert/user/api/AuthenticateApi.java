@@ -90,9 +90,6 @@ public class AuthenticateApi {
 	@ApiResponses(value = {
 			@ApiResponse(code = 406, message = "Invalid refresh token")
 	})
-	@ApiImplicitParams({
-	    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
-	                      required = true, dataType = "string", paramType = "header") })
 	@ApiOperation(
 			value = "Get new set of refresh token and access token",
 			response = Map.class)

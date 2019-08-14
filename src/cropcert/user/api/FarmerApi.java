@@ -32,11 +32,16 @@ import cropcert.user.service.FarmerService;
 import cropcert.user.service.UserService;
 import cropcert.user.util.UserDetailUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
 @Path("farmer")
 @Api("Farmer")
+@ApiImplicitParams({
+    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
+                      required = true, dataType = "string", paramType = "header") })
 public class FarmerApi{
 
 	private FarmerService farmerService;

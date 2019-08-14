@@ -20,7 +20,7 @@ import cropcert.user.util.SimpleUsernamePasswordAuthenticator;
 
 public class AuthenticateService {
 
-	public static String JWT_SALT = "12345678901234567890123456789012";
+	public static final String JWT_SALT = "12345678901234567890123456789012";
 
 	@Inject
 	private UserService userService;

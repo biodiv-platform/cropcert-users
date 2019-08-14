@@ -24,11 +24,16 @@ import com.google.inject.Inject;
 import cropcert.user.model.FactoryPerson;
 import cropcert.user.service.FactoryPersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
 @Path("factory")
 @Api("Factory person")
+@ApiImplicitParams({
+    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
+                      required = true, dataType = "string", paramType = "header") })
 public class FactoryPersonApi{
 
 	private FactoryPersonService factoryPersonService;

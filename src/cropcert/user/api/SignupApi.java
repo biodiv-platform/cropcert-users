@@ -15,10 +15,15 @@ import cropcert.user.model.Admin;
 import cropcert.user.model.CollectionCenterPerson;
 import cropcert.user.model.Farmer;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Path("signup")
 @Api("Signup")
+@ApiImplicitParams({
+    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
+                      required = true, dataType = "string", paramType = "header") })
 public class SignupApi {
 
 	@Inject FarmerApi farmerApi;

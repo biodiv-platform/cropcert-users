@@ -24,10 +24,15 @@ import com.google.inject.Inject;
 import cropcert.user.model.Union;
 import cropcert.user.service.UnionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Path("union")
 @Api("Union")
+@ApiImplicitParams({
+    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
+                      required = true, dataType = "string", paramType = "header") })
 public class UnionApi{
 
 	private UnionService unionService;

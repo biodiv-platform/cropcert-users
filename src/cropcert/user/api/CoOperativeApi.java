@@ -24,11 +24,16 @@ import com.google.inject.Inject;
 import cropcert.user.model.CoOperative;
 import cropcert.user.service.CoOperativeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
 @Path("co")
 @Api("Co operative")
+@ApiImplicitParams({
+    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
+                      required = true, dataType = "string", paramType = "header") })
 public class CoOperativeApi{
 
 	private CoOperativeService coOperativeService;

@@ -25,11 +25,16 @@ import com.google.inject.Inject;
 import cropcert.user.model.CollectionCenterPerson;
 import cropcert.user.service.CollectionCenterPersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
 @Path("ccUser")
 @Api("CC User")
+@ApiImplicitParams({
+    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
+                      required = true, dataType = "string", paramType = "header") })
 public class CollectionCenterPersonApi{
 
 	private CollectionCenterPersonService ccPersonService;

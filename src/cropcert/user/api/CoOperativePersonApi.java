@@ -26,11 +26,16 @@ import cropcert.user.model.CoOperativePerson;
 import cropcert.user.model.FactoryPerson;
 import cropcert.user.service.CoOperativePersonService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
 @Path("coUser")
 @Api("Co operative person")
+@ApiImplicitParams({
+    @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
+                      required = true, dataType = "string", paramType = "header") })
 public class CoOperativePersonApi{
 
 	private CoOperativePersonService coPersonService;
