@@ -20,6 +20,4 @@ script:
   - mvn deploy
   - ls target
   - sh @ci/pre-configure-sdk.sh
-
-after_success:
   - cd target/sdk && mvn deploy
