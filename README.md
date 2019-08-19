@@ -2,7 +2,10 @@
 
 Users API for Cropcert
 
+[![Build Status](https://travis-ci.com/strandls/cropcert-users.svg?branch=master)](https://travis-ci.com/strandls/cropcert-users)
+
 ## 🚀 Quick start
+
 ```sh
 mvn clean                   # Clean application
 mvn install                 # Build application WAR and generate OpenAPI SDK
@@ -11,6 +14,7 @@ mvn deploy                  # Deploys WAR to artifactory
 ```
 
 ## Building OpenAPI SDK
+
 ```sh
 @ci/pre-configure-sdk.sh    # Updated `pom.xml` with artificatory configuration
 cd target/sdk && mvn deploy # Deploys SDK to artifactory
