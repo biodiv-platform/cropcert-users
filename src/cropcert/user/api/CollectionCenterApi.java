@@ -62,14 +62,17 @@ public class CollectionCenterApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the collection centers",
-			response = List.class)
-	public List<CollectionCenter> findAll(
+			response = CollectionCenter.class,
+			responseContainer = "List")
+	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		List<CollectionCenter> collectionCenters;
 		if(limit==-1 || offset ==-1)
-			return collectionCenterService.findAll();
+			collectionCenters = collectionCenterService.findAll();
 		else
-			return collectionCenterService.findAll(limit, offset);
+			collectionCenters = collectionCenterService.findAll(limit, offset);
+		return Response.ok().entity(collectionCenters).build();
 	}
 
 	@Path("coOperativeId/{coOperativeId}")
@@ -77,10 +80,12 @@ public class CollectionCenterApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get list of cc by co-operative code",
-			response = List.class)
-	public List<CollectionCenter> findAll(
+			response = CollectionCenter.class,
+			responseContainer = "List")
+	public Response findAll(
 			@PathParam("coOperativeId") Long coOperativeId) {
-		return collectionCenterService.getByPropertyWithCondtion("coOperativeId", coOperativeId, "=", -1, -1);
+		List<CollectionCenter> collectionCenters = collectionCenterService.getByPropertyWithCondtion("coOperativeId", coOperativeId, "=", -1, -1);
+		return Response.ok().entity(collectionCenters).build();
 	}
 	
 	@Path("origin")
@@ -89,9 +94,11 @@ public class CollectionCenterApi{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get map of origins by cc codes",
-			response = Map.class)
-	public Map<String, Object> getOriginNames(@DefaultValue("") @QueryParam("ccCodes") String ccCodes) {
-		return collectionCenterService.getOriginNames(ccCodes);
+			response = Map.class,
+			responseContainer = "Map")
+	public Response getOriginNames(@DefaultValue("") @QueryParam("ccCodes") String ccCodes) {
+		Map<String, Object> originMap = collectionCenterService.getOriginNames(ccCodes);
+		return Response.ok().entity(originMap).build();
 	}
 	
 	@POST

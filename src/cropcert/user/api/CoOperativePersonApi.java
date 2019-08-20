@@ -64,14 +64,17 @@ public class CoOperativePersonApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the factory persons",
-			response = List.class)
-	public List<CoOperativePerson> findAll(
+			response = CoOperativePerson.class,
+			responseContainer = "List")
+	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		List<CoOperativePerson> coPersons;
 		if(limit==-1 || offset ==-1)
-			return coPersonService.findAll();
+			coPersons = coPersonService.findAll();
 		else
-			return coPersonService.findAll(limit, offset);
+			coPersons = coPersonService.findAll(limit, offset);
+		return Response.ok().entity(coPersons).build();
 	}
 	
 	@POST
@@ -106,7 +109,7 @@ public class CoOperativePersonApi{
 	@Consumes(MediaType.TEXT_PLAIN)
 	@ApiOperation(
 			value = "Delete the factory person",
-			response = FactoryPerson.class)
+			response = CoOperativePerson.class)
 	public Response delete(@PathParam("id") Long id) {
 		CoOperativePerson ccPerson = coPersonService.delete(id);
 		return Response.status(Status.ACCEPTED).entity(ccPerson).build();

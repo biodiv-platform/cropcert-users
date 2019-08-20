@@ -53,11 +53,12 @@ public class AuthenticateApi {
 	@ApiOperation(
 			value = "Get the current user",
 			response = CommonProfile.class)
-	public CommonProfile getUser(
+	public Response getUser(
 			@Context HttpServletRequest request,
 			@Context HttpServletResponse response
 			) {
-		return AuthUtility.getCurrentUser(request, response);
+		CommonProfile profile = AuthUtility.getCurrentUser(request, response);
+		return Response.ok().entity(profile).build();
 	}
 	
 	@POST

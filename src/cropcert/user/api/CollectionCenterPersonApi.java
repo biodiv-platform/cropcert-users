@@ -63,14 +63,19 @@ public class CollectionCenterPersonApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the cc persons",
-			response = List.class)
-	public List<CollectionCenterPerson> findAll(
+			response = CollectionCenterPerson.class,
+			responseContainer = "List")
+	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		
+		List<CollectionCenterPerson> ccPersons;
 		if(limit==-1 || offset ==-1)
-			return ccPersonService.findAll();
+			ccPersons = ccPersonService.findAll();
 		else
-			return ccPersonService.findAll(limit, offset);
+			ccPersons = ccPersonService.findAll(limit, offset);
+		
+		return Response.ok().entity(ccPersons).build();
 	}
 	
 	@POST

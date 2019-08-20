@@ -63,9 +63,10 @@ public class CoOperativeApi{
 	@ApiOperation(
 			value = "Get co-opearative by its code person by id",
 			response = CoOperative.class)
-	public CoOperative getByCoCode(@DefaultValue("-1") @QueryParam("coCode") String coCodeString) {
+	public Response getByCoCode(@DefaultValue("-1") @QueryParam("coCode") String coCodeString) {
 		Integer coCode = Integer.parseInt(coCodeString);
-		return coOperativeService.findByPropertyWithCondtion("code", coCode, "=");
+		CoOperative coOperative = coOperativeService.findByPropertyWithCondtion("code", coCode, "=");
+		return Response.ok().entity(coOperative).build();
 	}
 	
 	@Path("union")
@@ -73,10 +74,12 @@ public class CoOperativeApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get list of co-operative from given union",
-			response = List.class)
-	public List<CoOperative> getByUnion(
+			response = CoOperative.class,
+			responseContainer = "List")
+	public Response getByUnion(
 			@DefaultValue("-1") @QueryParam("unionCode") Long unionCode) {
-		return coOperativeService.getByPropertyWithCondtion("unionCode", unionCode, "=", -1, -1);
+		List<CoOperative> coOperatives = coOperativeService.getByPropertyWithCondtion("unionCode", unionCode, "=", -1, -1);
+		return Response.ok().entity(coOperatives).build();
 	}
 	
 	@Path("all")
@@ -84,12 +87,15 @@ public class CoOperativeApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the co-operative",
-			response = List.class)
-	public List<CoOperative> findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+			response = CoOperative.class,
+			responseContainer = "List")
+	public Response findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+		List<CoOperative> coOperatives;
 		if(limit==-1 || offset ==-1)
-			return coOperativeService.findAll();
+			coOperatives = coOperativeService.findAll();
 		else
-			return coOperativeService.findAll(limit, offset);
+			coOperatives = coOperativeService.findAll(limit, offset);
+		return Response.ok().entity(coOperatives).build();
 	}
 	
 	@POST

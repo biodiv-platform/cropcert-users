@@ -63,14 +63,19 @@ public class AdminApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the admins",
-			response = List.class)
-	public List<Admin> findAll(
+			response = Admin.class,
+			responseContainer = "List")
+	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		
+		List<Admin> admins;
 		if(limit==-1 || offset ==-1)
-			return adminService.findAll();
+			admins = adminService.findAll();
 		else
-			return adminService.findAll(limit, offset);
+			admins = adminService.findAll(limit, offset);
+		
+		return Response.ok().entity(admins).build();
 	}
 	
 	@POST

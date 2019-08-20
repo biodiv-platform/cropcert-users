@@ -59,8 +59,9 @@ public class UserApi {
 	@ApiOperation(
 			value = "Get the user by email-id",
 			response = User.class)
-	public User getByEmail(@DefaultValue("") @PathParam("email") String email) { 
-		return userService.findByPropertyWithCondtion("email", email, "=");
+	public Response getByEmail(@DefaultValue("") @PathParam("email") String email) { 
+		User user = userService.findByPropertyWithCondtion("email", email, "=");
+		return Response.ok().entity(user).build();
 	}
 	
 	@Path("userName/{userName}")
@@ -69,8 +70,9 @@ public class UserApi {
 	@ApiOperation(
 			value = "Get the user by userName",
 			response = User.class)
-	public User getByUserName(@DefaultValue("") @PathParam("userName") String userName) { 
-		return userService.findByPropertyWithCondtion("userName", userName, "=");
+	public Response getByUserName(@DefaultValue("") @PathParam("userName") String userName) { 
+		User user = userService.findByPropertyWithCondtion("userName", userName, "=");
+		return Response.ok().entity(user).build();
 	}
 	
 	@POST

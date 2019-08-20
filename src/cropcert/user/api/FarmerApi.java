@@ -25,7 +25,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
-import cropcert.user.model.CollectionCenterPerson;
 import cropcert.user.model.Farmer;
 import cropcert.user.model.User;
 import cropcert.user.service.FarmerService;
@@ -72,14 +71,17 @@ public class FarmerApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the farmers",
-			response = List.class)
-	public List<Farmer> findAll(
+			response = Farmer.class,
+			responseContainer = "List")
+	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		List<Farmer> farmers;
 		if(limit==-1 || offset ==-1)
-			return farmerService.findAll();
+			farmers = farmerService.findAll();
 		else
-			return farmerService.findAll(limit, offset);
+			farmers = farmerService.findAll(limit, offset);
+		return Response.ok().entity(farmers).build();
 	}
 		
 	@Path("collection")
@@ -87,8 +89,9 @@ public class FarmerApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get list of farmer by collection center",
-			response = List.class)
-	public List<Farmer> getFarmerForCollectionCenter(@Context HttpServletRequest request, 
+			response = Farmer.class,
+			responseContainer = "List")
+	public Response getFarmerForCollectionCenter(@Context HttpServletRequest request, 
 			@DefaultValue("-1") @QueryParam("ccCode") String ccCodeString,
 			@DefaultValue("-1") @QueryParam("limit") String limitString,
 			@DefaultValue("-1") @QueryParam("offset") String offsetString) {
@@ -97,17 +100,22 @@ public class FarmerApi{
 		int limit  = Integer.parseInt(limitString);
 		int offset = Integer.parseInt(offsetString);
 		
+		List<Farmer> farmers;
 		if (ccCode >= 0 ) 
-			return farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);
-		
-		User user = UserDetailUtil.getUserDetails(request, userService);
-		if (user instanceof CollectionCenterPerson) {
-			CollectionCenterPerson ccPerson = (CollectionCenterPerson) user;
-			ccCode = ccPerson.getCcCode();
-			return farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);
+			farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);
+		else {
+			User user = UserDetailUtil.getUserDetails(request, userService);
+			if (user instanceof Farmer) {
+				Farmer farmer = (Farmer) user;
+				ccCode = farmer.getCcCode();
+				farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);
+			}
+			else {
+				farmers = new ArrayList<Farmer>();
+			}
 		}
 		
-		return new ArrayList<Farmer>();
+		return Response.ok().entity(farmers).build();
 	}
 	
 	@POST

@@ -62,14 +62,17 @@ public class FactoryPersonApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the factory persons",
-			response = List.class)
-	public List<FactoryPerson> findAll(
+			response = FactoryPerson.class,
+			responseContainer = "List")
+	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		List<FactoryPerson> factoryPersons;
 		if(limit==-1 || offset ==-1)
-			return factoryPersonService.findAll();
+			factoryPersons = factoryPersonService.findAll();
 		else
-			return factoryPersonService.findAll(limit, offset);
+			factoryPersons = factoryPersonService.findAll(limit, offset);
+		return Response.ok().entity(factoryPersons).build();
 	}
 	
 	@POST

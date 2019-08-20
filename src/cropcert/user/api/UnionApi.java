@@ -61,14 +61,17 @@ public class UnionApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the Union",
-			response = Union.class)
-	public List<Union> findAll(
+			response = Union.class,
+			responseContainer = "List")
+	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		List<Union> unions;
 		if(limit==-1 || offset ==-1)
-			return unionService.findAll();
+			unions = unionService.findAll();
 		else
-			return unionService.findAll(limit, offset);
+			unions = unionService.findAll(limit, offset);
+		return Response.ok().entity(unions).build();
 	}
 
 	@POST
