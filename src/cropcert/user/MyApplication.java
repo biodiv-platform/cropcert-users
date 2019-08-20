@@ -1,9 +1,11 @@
 package cropcert.user;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.ws.rs.core.Application;
@@ -18,16 +20,40 @@ public class MyApplication extends Application{
 	
 	public static final Logger logger = LoggerFactory.getLogger(MyApplication.class);
 	
+	public static final String JWT_SALT;
+
+	static {
+		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+		Properties properties = new Properties();
+		try {
+			properties.load(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JWT_SALT = properties.getProperty("jwtSalt", "12345678901234567890123456789012");
+	}
+
 	public MyApplication() {
+
+		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
+
+		Properties properties = new Properties();
+		try {
+			properties.load(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		BeanConfig beanConfig = new BeanConfig();
-		beanConfig.setVersion("1.0");
-		beanConfig.setTitle("User module microServices");
-		beanConfig.setSchemes(new String[] { "http" });
-		beanConfig.setHost("localhost:8080");
-		beanConfig.setBasePath("/user/api");
-		beanConfig.setResourcePackage("cropcert.user");
-		beanConfig.setPrettyPrint(true);
-		beanConfig.setScan(true);
+		beanConfig.setVersion(properties.getProperty("version"));
+		beanConfig.setTitle(properties.getProperty("title"));
+		beanConfig.setSchemes(properties.getProperty("schemes").split(","));
+		beanConfig.setHost(properties.getProperty("host"));
+		beanConfig.setBasePath(properties.getProperty("basePath"));
+		beanConfig.setResourcePackage(properties.getProperty("resourcePackage"));
+		beanConfig.setPrettyPrint(new Boolean(properties.getProperty("prettyPrint")));
+		beanConfig.setScan(new Boolean(properties.getProperty("scan")));
+
 	}
 
 	@Override
