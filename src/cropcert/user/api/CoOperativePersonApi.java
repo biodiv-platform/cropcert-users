@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
 import cropcert.user.model.CoOperativePerson;
-import cropcert.user.model.FactoryPerson;
 import cropcert.user.service.CoOperativePersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -63,7 +62,7 @@ public class CoOperativePersonApi{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
-			value = "Get all the factory persons",
+			value = "Get all the co-operatvie persons",
 			response = CoOperativePerson.class,
 			responseContainer = "List")
 	public Response findAll(
@@ -81,8 +80,8 @@ public class CoOperativePersonApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(
-			value = "Save the factory person",
-			response = FactoryPerson.class)
+			value = "Save the co operative person",
+			response = CoOperativePerson.class)
 	public Response save(String  jsonString) {
 		try {
 			CoOperativePerson coPerson = coPersonService.save(jsonString);

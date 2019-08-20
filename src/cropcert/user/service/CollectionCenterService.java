@@ -39,7 +39,7 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 		for(String value : ccCodesString.split(",")) {
 			Long ccCode = Long.parseLong(value);
 			CollectionCenter collectionCenter = findByPropertyWithCondtion("code", ccCode, "=");
-			coOperativeId = collectionCenter.getCoOperativeId();
+			coOperativeId = collectionCenter.getCoOperativeCode();
 			ccNames.add(collectionCenter.getName());
 		}
 		

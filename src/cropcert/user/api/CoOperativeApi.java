@@ -89,7 +89,10 @@ public class CoOperativeApi{
 			value = "Get all the co-operative",
 			response = CoOperative.class,
 			responseContainer = "List")
-	public Response findAll(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+	public Response findAll(
+			@DefaultValue("-1") @QueryParam("limit") Integer limit,
+			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		
 		List<CoOperative> coOperatives;
 		if(limit==-1 || offset ==-1)
 			coOperatives = coOperativeService.findAll();
