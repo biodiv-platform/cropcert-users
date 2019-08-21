@@ -14,13 +14,12 @@ import org.pac4j.jwt.profile.JwtGenerator;
 
 import com.google.inject.Inject;
 
+import cropcert.user.MyApplication;
 import cropcert.user.model.User;
 import cropcert.user.util.AuthUtility;
 import cropcert.user.util.SimpleUsernamePasswordAuthenticator;
 
 public class AuthenticateService {
-
-	public static final String JWT_SALT = "12345678901234567890123456789012";
 
 	@Inject
 	private UserService userService;
@@ -78,7 +77,7 @@ public class AuthenticateService {
 	private String generateAccessToken(CommonProfile profile, User user) {
 
 		JwtGenerator<CommonProfile> generator = new JwtGenerator<CommonProfile>(
-				new SecretSignatureConfiguration(JWT_SALT));
+				new SecretSignatureConfiguration(MyApplication.JWT_SALT));
 
 		Map<String, Object> jwtClaims = new HashMap<String, Object>();
 		jwtClaims.put("id", profile.getId());
@@ -100,7 +99,7 @@ public class AuthenticateService {
 	 */
 	private String generateRefreshToken(CommonProfile profile, User user) {
 		JwtGenerator<CommonProfile> generator = new JwtGenerator<CommonProfile>(
-				new SecretSignatureConfiguration(JWT_SALT));
+				new SecretSignatureConfiguration(MyApplication.JWT_SALT));
 
 		//return generator.generate(profile);
 
