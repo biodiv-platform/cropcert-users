@@ -7,11 +7,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
 @Table(name="factory_person")
 @XmlRootElement
 @PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue(value= "factory")
+@ApiModel("FactoryPerson")
 public class FactoryPerson extends User{
 
 	/**

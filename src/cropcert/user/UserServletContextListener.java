@@ -45,7 +45,6 @@ public class UserServletContextListener extends GuiceServletContextListener {
 				
 				bind(SessionFactory.class).toInstance(sessionFactory);
 				bind(ObjectMapper.class).in(Scopes.SINGLETON);
-				bind(Logout.class).in(Scopes.SINGLETON);
 				bind(AuthUtility.class).in(Scopes.SINGLETON);
 				
 				Map<String, String> props = new HashMap<String, String>();

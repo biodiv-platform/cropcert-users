@@ -10,8 +10,8 @@ public class DaoModule extends AbstractModule{
 		bind(AdminDao.class).in(Scopes.SINGLETON);
 		bind(CollectionCenterPersonDao.class).in(Scopes.SINGLETON);
 		bind(CollectionCenterDao.class).in(Scopes.SINGLETON);
-		bind(CoOperativeDao.class).in(Scopes.SINGLETON);
-		bind(CoOperativePersonDao.class).in(Scopes.SINGLETON);
+		bind(CooperativeDao.class).in(Scopes.SINGLETON);
+		bind(CooperativePersonDao.class).in(Scopes.SINGLETON);
 		bind(FactoryPersonDao.class).in(Scopes.SINGLETON);
 		bind(FarmerDao.class).in(Scopes.SINGLETON);
 		bind(UnionDao.class).in(Scopes.SINGLETON);

@@ -7,12 +7,15 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
+@Table (name = "cooperative")
 @XmlRootElement
-@Table (name = "co_operative")
 @PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue(value= "co")
-public class CoOperative extends CropcertEntity{
+@ApiModel("Cooperative")
+public class Cooperative extends CropcertEntity{
 
 	/**
 	 * 

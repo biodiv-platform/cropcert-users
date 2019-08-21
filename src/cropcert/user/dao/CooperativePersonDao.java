@@ -5,21 +5,21 @@ import org.hibernate.SessionFactory;
 
 import com.google.inject.Inject;
 
-import cropcert.user.model.CoOperative;
+import cropcert.user.model.CooperativePerson;
 
-public class CoOperativeDao extends AbstractDao<CoOperative, Long>{
+public class CooperativePersonDao extends AbstractDao<CooperativePerson, Long>{
 
 	@Inject
-	protected CoOperativeDao(SessionFactory sessionFactory) {
+	protected CooperativePersonDao(SessionFactory sessionFactory) {
 		super(sessionFactory);
 	}
 
 	@Override
-	public CoOperative findById(Long id) {
+	public CooperativePerson findById(Long id) {
 		Session session = sessionFactory.openSession();
-		CoOperative entity = null;
+		CooperativePerson entity = null;
 		try {
-			entity = session.get(CoOperative.class, id);
+			entity = session.get(CooperativePerson.class, id);
 		} catch (Exception e) {
 			throw e;
 		} finally {

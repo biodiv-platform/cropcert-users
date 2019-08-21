@@ -25,14 +25,15 @@ import io.swagger.annotations.ApiModel;
 @JsonIgnoreProperties
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "entityType", discriminatorType = DiscriminatorType.STRING)
-@ApiModel( value = "Entity", subTypes = {Farm.class, CollectionCenter.class,
-		CoOperative.class, Factory.class, Union.class})
+@ApiModel( value = "CropcertEntity", subTypes = {CollectionCenter.class, Cooperative.class,
+		Factory.class, Farm.class, Union.class})
 public class CropcertEntity implements Serializable{
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4840834129839951969L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "entity_id_generator")

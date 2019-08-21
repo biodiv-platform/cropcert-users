@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiModel;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 @ApiModel( value = "User", subTypes = {Admin.class, CollectionCenterPerson.class,
-		CoOperativePerson.class, FactoryPerson.class, Farmer.class, UnionPerson.class})
+		CooperativePerson.class, FactoryPerson.class, Farmer.class, UnionPerson.class})
 public class User implements Serializable {
 
 	/**

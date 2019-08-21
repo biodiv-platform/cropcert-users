@@ -7,12 +7,15 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
-@Table(name="co_person")
+@Table(name="cooperative_person")
 @XmlRootElement
 @PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue(value= "co")
-public class CoOperativePerson extends User{
+@ApiModel("CooperativePerson")
+public class CooperativePerson extends User{
 
 	/**
 	 * 

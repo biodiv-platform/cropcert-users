@@ -6,11 +6,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
-@XmlRootElement
 @Table (name = "union_table")
+@XmlRootElement
 @PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue(value= "union")
+@ApiModel("Union")
 public class Union extends CropcertEntity{
 
 	/**

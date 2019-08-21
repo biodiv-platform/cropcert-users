@@ -7,11 +7,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
-@XmlRootElement
 @Table (name = "factory")
+@XmlRootElement
 @PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue(value= "factory")
+@ApiModel("Factory")
 public class Factory extends CropcertEntity {
 
 	/**

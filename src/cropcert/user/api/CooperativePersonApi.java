@@ -22,8 +22,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
-import cropcert.user.model.CoOperativePerson;
-import cropcert.user.service.CoOperativePersonService;
+import cropcert.user.model.CooperativePerson;
+import cropcert.user.service.CooperativePersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -35,12 +35,12 @@ import io.swagger.annotations.ApiOperation;
 @ApiImplicitParams({
     @ApiImplicitParam(name = "Authorization", value = "Authorization token", 
                       required = true, dataType = "string", paramType = "header") })
-public class CoOperativePersonApi{
+public class CooperativePersonApi{
 
-	private CoOperativePersonService coPersonService;
+	private CooperativePersonService coPersonService;
 	
 	@Inject
-	public CoOperativePersonApi(CoOperativePersonService farmerService) {
+	public CooperativePersonApi(CooperativePersonService farmerService) {
 		this.coPersonService = farmerService;
 	}
 	
@@ -50,9 +50,9 @@ public class CoOperativePersonApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get co-operative person by id",
-			response = CoOperativePerson.class)
+			response = CooperativePerson.class)
 	public Response find(@PathParam("id") Long id) {
-		CoOperativePerson ccPerson = coPersonService.findById(id);
+		CooperativePerson ccPerson = coPersonService.findById(id);
 		if(ccPerson==null)
 			return Response.status(Status.NO_CONTENT).build();
 		return Response.status(Status.CREATED).entity(ccPerson).build();
@@ -63,12 +63,12 @@ public class CoOperativePersonApi{
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get all the co-operatvie persons",
-			response = CoOperativePerson.class,
+			response = CooperativePerson.class,
 			responseContainer = "List")
 	public Response findAll(
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
-		List<CoOperativePerson> coPersons;
+		List<CooperativePerson> coPersons;
 		if(limit==-1 || offset ==-1)
 			coPersons = coPersonService.findAll();
 		else
@@ -81,10 +81,10 @@ public class CoOperativePersonApi{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Save the co operative person",
-			response = CoOperativePerson.class)
+			response = CooperativePerson.class)
 	public Response save(String  jsonString) {
 		try {
-			CoOperativePerson coPerson = coPersonService.save(jsonString);
+			CooperativePerson coPerson = coPersonService.save(jsonString);
 			return Response.status(Status.CREATED).entity(coPerson).build();
 		} catch(ConstraintViolationException e) {
 			return Response.status(Status.CONFLICT).tag("Dublicate key").build();
@@ -108,9 +108,9 @@ public class CoOperativePersonApi{
 	@Consumes(MediaType.TEXT_PLAIN)
 	@ApiOperation(
 			value = "Delete the factory person",
-			response = CoOperativePerson.class)
+			response = CooperativePerson.class)
 	public Response delete(@PathParam("id") Long id) {
-		CoOperativePerson ccPerson = coPersonService.delete(id);
+		CooperativePerson ccPerson = coPersonService.delete(id);
 		return Response.status(Status.ACCEPTED).entity(ccPerson).build();
 	}
 

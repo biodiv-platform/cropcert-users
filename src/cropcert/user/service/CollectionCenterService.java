@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
 import cropcert.user.dao.CollectionCenterDao;
-import cropcert.user.model.CoOperative;
+import cropcert.user.model.Cooperative;
 import cropcert.user.model.CollectionCenter;
 
 public class CollectionCenterService extends AbstractService<CollectionCenter>{
@@ -20,7 +20,7 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 	@Inject ObjectMapper objectMapper;
 	
 	@Inject
-	private CoOperativeService coOperativeService;
+	private CooperativeService coOperativeService;
 	
 	@Inject
 	public CollectionCenterService(CollectionCenterDao dao) {
@@ -39,13 +39,13 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 		for(String value : ccCodesString.split(",")) {
 			Long ccCode = Long.parseLong(value);
 			CollectionCenter collectionCenter = findByPropertyWithCondtion("code", ccCode, "=");
-			coOperativeId = collectionCenter.getCoOperativeCode();
+			coOperativeId = collectionCenter.getCooperativeCode();
 			ccNames.add(collectionCenter.getName());
 		}
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(coOperativeId != null && coOperativeId != -1) {
-			CoOperative coOperative = coOperativeService.findById(coOperativeId);
+			Cooperative coOperative = coOperativeService.findById(coOperativeId);
 			result.put("coOperativeName", coOperative.getName());
 		}
 		result.put("ccNames", ccNames);

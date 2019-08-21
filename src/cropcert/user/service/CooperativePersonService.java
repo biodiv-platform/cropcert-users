@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
-import cropcert.user.dao.CoOperativePersonDao;
-import cropcert.user.model.CoOperativePerson;
+import cropcert.user.dao.CooperativePersonDao;
+import cropcert.user.model.CooperativePerson;
 import cropcert.user.util.MessageDigestPasswordEncoder;
 
-public class CoOperativePersonService extends AbstractService<CoOperativePerson>{
+public class CooperativePersonService extends AbstractService<CooperativePerson>{
 
 	@Inject ObjectMapper objectMapper;
 	
@@ -19,12 +19,12 @@ public class CoOperativePersonService extends AbstractService<CoOperativePerson>
 	private MessageDigestPasswordEncoder passwordEncoder;
 	
 	@Inject
-	public CoOperativePersonService(CoOperativePersonDao coPersonDao) {
+	public CooperativePersonService(CooperativePersonDao coPersonDao) {
 		super(coPersonDao);
 	}
 
-	public CoOperativePerson save(String jsonString) throws JsonParseException, JsonMappingException, IOException {
-		CoOperativePerson ccPerson = objectMapper.readValue(jsonString, CoOperativePerson.class);
+	public CooperativePerson save(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+		CooperativePerson ccPerson = objectMapper.readValue(jsonString, CooperativePerson.class);
 		String password = ccPerson.getPassword();
 		//password = PasswordEncoder.encode(password);
 		password = passwordEncoder.encodePassword(password, null);

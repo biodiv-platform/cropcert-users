@@ -7,11 +7,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
-@XmlRootElement
 @Table (name = "collection_center")
+@XmlRootElement
 @PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue(value= "cc")
+@ApiModel("CollectionCenter")
 public class CollectionCenter extends CropcertEntity{
 
 	/**
@@ -22,7 +25,7 @@ public class CollectionCenter extends CropcertEntity{
 	@Column (name = "type")
 	private String type;
 	@Column ( name = "co_operative_code")
-	private Long coOperativeCode;
+	private Long cooperativeCode;
 
 	public String getType() {
 		return type;
@@ -30,11 +33,12 @@ public class CollectionCenter extends CropcertEntity{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Long getCoOperativeCode() {
-		return coOperativeCode;
+
+	public Long getCooperativeCode() {
+		return cooperativeCode;
 	}
-	public void setCoOperativeCode(Long coOperativeCode) {
-		this.coOperativeCode = coOperativeCode;
+	public void setCooperativeCode(Long cooperativeCode) {
+		this.cooperativeCode = cooperativeCode;
 	}
 	
 }
