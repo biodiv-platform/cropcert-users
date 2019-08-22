@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
+import cropcert.user.model.CollectionCenter;
 import cropcert.user.model.Cooperative;
 import cropcert.user.service.CooperativeService;
 import io.swagger.annotations.Api;
@@ -36,11 +37,11 @@ import io.swagger.annotations.ApiOperation;
                       required = true, dataType = "string", paramType = "header") })
 public class CooperativeApi{
 
-	private CooperativeService coOperativeService;
+	private CooperativeService cooperativeService;
 	
 	@Inject
-	public CooperativeApi(CooperativeService coOperativeService) {
-		this.coOperativeService = coOperativeService;
+	public CooperativeApi(CooperativeService cooperativeService) {
+		this.cooperativeService = cooperativeService;
 	}
 	
 	@Path("{id}")
@@ -51,22 +52,24 @@ public class CooperativeApi{
 			value = "Get co-operative by id",
 			response = Cooperative.class)
 	public Response find(@PathParam("id") Long id) {
-		Cooperative coOperative = coOperativeService.findById(id);
-		if(coOperative==null)
+		Cooperative cooperative = cooperativeService.findById(id);
+		if(cooperative==null)
 			return Response.status(Status.NO_CONTENT).build();
-		return Response.status(Status.CREATED).entity(coOperative).build();
+		return Response.status(Status.CREATED).entity(cooperative).build();
 	}
-	
-	@Path("coCode")
+
+	@Path("code/{code}")
 	@GET
+	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
-			value = "Get co-opearative by its code person by id",
-			response = Cooperative.class)
-	public Response getByCoCode(@DefaultValue("-1") @QueryParam("coCode") String coCodeString) {
-		Integer coCode = Integer.parseInt(coCodeString);
-		Cooperative coOperative = coOperativeService.findByPropertyWithCondtion("code", coCode, "=");
-		return Response.ok().entity(coOperative).build();
+			value = "Get co-opearative by its code",
+			response = CollectionCenter.class)
+	public Response findByCode(@PathParam("code") Long code) {
+		Cooperative cooperative = cooperativeService.findByPropertyWithCondtion("code", code, "=");
+		if(cooperative==null)
+			return Response.status(Status.NO_CONTENT).build();
+		return Response.ok().entity(cooperative).build();
 	}
 	
 	@Path("union")
@@ -78,8 +81,8 @@ public class CooperativeApi{
 			responseContainer = "List")
 	public Response getByUnion(
 			@DefaultValue("-1") @QueryParam("unionCode") Long unionCode) {
-		List<Cooperative> coOperatives = coOperativeService.getByPropertyWithCondtion("unionCode", unionCode, "=", -1, -1);
-		return Response.ok().entity(coOperatives).build();
+		List<Cooperative> cooperatives = cooperativeService.getByPropertyWithCondtion("unionCode", unionCode, "=", -1, -1);
+		return Response.ok().entity(cooperatives).build();
 	}
 	
 	@Path("all")
@@ -93,12 +96,12 @@ public class CooperativeApi{
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
 		
-		List<Cooperative> coOperatives;
+		List<Cooperative> cooperatives;
 		if(limit==-1 || offset ==-1)
-			coOperatives = coOperativeService.findAll();
+			cooperatives = cooperativeService.findAll();
 		else
-			coOperatives = coOperativeService.findAll(limit, offset);
-		return Response.ok().entity(coOperatives).build();
+			cooperatives = cooperativeService.findAll(limit, offset);
+		return Response.ok().entity(cooperatives).build();
 	}
 	
 	@POST
@@ -109,8 +112,8 @@ public class CooperativeApi{
 			response = Cooperative.class)
 	public Response save(String  jsonString) {
 		try {
-			Cooperative coOperative = coOperativeService.save(jsonString);
-			return Response.status(Status.CREATED).entity(coOperative).build();
+			Cooperative cooperative = cooperativeService.save(jsonString);
+			return Response.status(Status.CREATED).entity(cooperative).build();
 		} catch(ConstraintViolationException e) {
 			return Response.status(Status.CONFLICT).tag("Dublicate key").build();
 		}

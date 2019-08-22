@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
+import cropcert.user.model.CollectionCenter;
 import cropcert.user.model.Union;
 import cropcert.user.service.UnionService;
 import io.swagger.annotations.Api;
@@ -54,6 +55,20 @@ public class UnionApi{
 		if(union==null)
 			return Response.status(Status.NO_CONTENT).build();
 		return Response.status(Status.CREATED).entity(union).build();
+	}
+	
+	@Path("code/{code}")
+	@GET
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get union by its code",
+			response = CollectionCenter.class)
+	public Response findByCode(@PathParam("code") Long code) {
+		Union union = unionService.findByPropertyWithCondtion("code", code, "=");
+		if(union==null)
+			return Response.status(Status.NO_CONTENT).build();
+		return Response.ok().entity(union).build();
 	}
 	
 	@Path("all")

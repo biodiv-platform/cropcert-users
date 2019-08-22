@@ -1,7 +1,6 @@
 package cropcert.user.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +25,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.inject.Inject;
 
 import cropcert.user.model.Farmer;
-import cropcert.user.model.User;
 import cropcert.user.service.FarmerService;
-import cropcert.user.service.UserService;
-import cropcert.user.util.UserDetailUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -44,12 +40,10 @@ import io.swagger.annotations.ApiOperation;
 public class FarmerApi{
 
 	private FarmerService farmerService;
-	private UserService userService;
 
 	@Inject
-	public FarmerApi(FarmerService farmerService, UserService userService) {
+	public FarmerApi(FarmerService farmerService) {
 		this.farmerService = farmerService;
-		this.userService   = userService;
 	}
 	
 	@Path("{id}")
@@ -100,21 +94,7 @@ public class FarmerApi{
 		int limit  = Integer.parseInt(limitString);
 		int offset = Integer.parseInt(offsetString);
 		
-		List<Farmer> farmers;
-		if (ccCode >= 0 ) 
-			farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);
-		else {
-			User user = UserDetailUtil.getUserDetails(request, userService);
-			if (user instanceof Farmer) {
-				Farmer farmer = (Farmer) user;
-				ccCode = farmer.getCcCode();
-				farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);
-			}
-			else {
-				farmers = new ArrayList<Farmer>();
-			}
-		}
-		
+		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);;
 		return Response.ok().entity(farmers).build();
 	}
 	

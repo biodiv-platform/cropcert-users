@@ -24,7 +24,6 @@ import com.google.inject.Inject;
 
 import cropcert.user.filter.JWTTokenValidationFilter;
 import cropcert.user.service.AuthenticateService;
-import cropcert.user.util.AuthUtility;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,13 +51,13 @@ public class AuthenticateApi {
 	                      required = true, dataType = "string", paramType = "header") })
 	@ApiOperation(
 			value = "Get the current user",
-			response = CommonProfile.class)
+			response = Map.class)
 	public Response getUser(
 			@Context HttpServletRequest request,
 			@Context HttpServletResponse response
 			) {
-		CommonProfile profile = AuthUtility.getCurrentUser(request, response);
-		return Response.ok().entity(profile).build();
+		Map<String, Object> myData = authenticateService.getMyData(request);		
+		return Response.ok().entity(myData).build();
 	}
 	
 	@POST

@@ -57,6 +57,20 @@ public class CollectionCenterApi{
 		return Response.status(Status.CREATED).entity(collectionCenter).build();
 	}
 	
+	@Path("code/{code}")
+	@GET
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Get cc by its code",
+			response = CollectionCenter.class)
+	public Response findByCode(@PathParam("code") Long code) {
+		CollectionCenter collectionCenter = collectionCenterService.findByPropertyWithCondtion("code", code, "=");
+		if(collectionCenter==null)
+			return Response.status(Status.NO_CONTENT).build();
+		return Response.ok().entity(collectionCenter).build();
+	}
+	
 	@Path("all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
