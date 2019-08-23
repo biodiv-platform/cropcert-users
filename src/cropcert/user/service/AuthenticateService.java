@@ -190,7 +190,7 @@ public class AuthenticateService {
 			Response ccResponse = collectionCenterApi.findByCode((long) ccCode);
 			if(ccResponse.getEntity() != null) {
 				CollectionCenter collectionCenter = (CollectionCenter) ccResponse.getEntity();
-				Long coCode = collectionCenter.getCooperativeCode();
+				Long coCode = collectionCenter.getCoCode();
 				myData.put("coCode", coCode);
 				
 				Response coResponse = cooperativeApi.findByCode((long) coCode);

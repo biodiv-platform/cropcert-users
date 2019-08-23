@@ -25,7 +25,7 @@ public class CollectionCenter extends CropcertEntity{
 	@Column (name = "type")
 	private String type;
 	@Column ( name = "co_operative_code")
-	private Long cooperativeCode;
+	private Long coCode;
 
 	public String getType() {
 		return type;
@@ -33,12 +33,11 @@ public class CollectionCenter extends CropcertEntity{
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public Long getCooperativeCode() {
-		return cooperativeCode;
+	public Long getCoCode() {
+		return coCode;
 	}
-	public void setCooperativeCode(Long cooperativeCode) {
-		this.cooperativeCode = cooperativeCode;
+	public void setCoCode(Long coCode) {
+		this.coCode = coCode;
 	}
 	
 }

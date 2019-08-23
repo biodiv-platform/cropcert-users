@@ -89,7 +89,7 @@ public class CollectionCenterApi{
 		return Response.ok().entity(collectionCenters).build();
 	}
 
-	@Path("coOperativeId/{coOperativeId}")
+	@Path("coCode/{coCode}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
@@ -97,8 +97,8 @@ public class CollectionCenterApi{
 			response = CollectionCenter.class,
 			responseContainer = "List")
 	public Response findAll(
-			@PathParam("coOperativeId") Long coOperativeId) {
-		List<CollectionCenter> collectionCenters = collectionCenterService.getByPropertyWithCondtion("coOperativeId", coOperativeId, "=", -1, -1);
+			@PathParam("coCode") Long coCode) {
+		List<CollectionCenter> collectionCenters = collectionCenterService.getByPropertyWithCondtion("coCode", coCode, "=", -1, -1);
 		return Response.ok().entity(collectionCenters).build();
 	}
 	
