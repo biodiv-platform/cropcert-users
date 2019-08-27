@@ -18,6 +18,7 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 import cropcert.user.api.APIModule;
 import cropcert.user.dao.DaoModule;
+import cropcert.user.filter.FilterModule;
 import cropcert.user.util.AuthUtility;
 import cropcert.user.util.Utility;
 
@@ -53,7 +54,7 @@ public class UserServletContextListener extends GuiceServletContextListener {
 				
 				serve("/api/*").with(GuiceContainer.class, props);
 			}
-		}, new DaoModule(), new APIModule());
+		}, new DaoModule(), new APIModule(), new FilterModule());
 		
 		return injector; 
 	}

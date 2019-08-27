@@ -13,7 +13,7 @@ import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.core.profile.definition.CommonProfileDefinition;
 import org.pac4j.core.profile.jwt.JwtClaims;
 
-import cropcert.user.filter.JWTTokenValidationFilter;
+import cropcert.user.filter.SecurityInterceptor;
 import cropcert.user.model.User;
 
 public class AuthUtility {
@@ -77,8 +77,8 @@ public class AuthUtility {
 
 	public static CommonProfile getCommonProfile(HttpServletRequest request) {
 		String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-		return JWTTokenValidationFilter.getCommonProfile(authorizationHeader);
+		String token = authorizationHeader.substring("Bearer".length()).trim();
+		return SecurityInterceptor.jwtAuthenticator.validateToken(token);
 	}
 	
 	public static CommonProfile getCurrentUser(HttpServletRequest request, HttpServletResponse response) {

@@ -14,15 +14,15 @@ import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.api.NotFoundException;
 
-import cropcert.user.api.UserApi;
 import cropcert.user.model.User;
+import cropcert.user.service.UserService;
 
 public class SimpleUsernamePasswordAuthenticator implements Authenticator<UsernamePasswordCredentials> {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Inject
-	private UserApi userService;
+	private UserService userService;
 
 	@Inject
 	private MessageDigestPasswordEncoder passwordEncoder; 
@@ -48,7 +48,7 @@ public class SimpleUsernamePasswordAuthenticator implements Authenticator<Userna
 
 		User user = null;
 		try {
-			user = (User) userService.getByEmail(username).getEntity();
+			user = (User) userService.getByUserName(username);
 		} catch(NotFoundException e ) {
 			log.error("No user with email {}", username);
 		}

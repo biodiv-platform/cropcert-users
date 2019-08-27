@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModel;
@@ -42,8 +43,11 @@ public class User implements Serializable {
 	private long id;
 	@Column(name = "user_name", nullable = false, unique = true)	
 	private String userName;
+	
+	@JsonIgnore
 	@Column(name = "password", nullable = false) 
 	private String password;
+	
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "last_name")

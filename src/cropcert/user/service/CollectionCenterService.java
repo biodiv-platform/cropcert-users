@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -35,7 +36,7 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 		return save(collectionCenter);
 	}
 
-	public Map<String, Object> getOriginNames(String ccCodesString) {
+	public Map<String, Object> getOriginNames(HttpServletRequest request, String ccCodesString) {
 		Long coCode = -1L;
 		List<String> ccNames = new ArrayList<String>();
 		
@@ -48,7 +49,7 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(coCode != null && coCode != -1) {
-			Response r = cooperativeService.findByCode(coCode);
+			Response r = cooperativeService.findByCode(request, coCode);
 			if(r.getEntity() != null) {
 				Cooperative cooperative = (Cooperative) r.getEntity();
 				result.put("cooperativeName", cooperative.getName());
