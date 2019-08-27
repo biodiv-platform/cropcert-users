@@ -118,7 +118,6 @@ public class AuthenticateService {
 		jwtClaims.put(CommonProfileDefinition.EMAIL, profile.getEmail());
 		jwtClaims.put(JwtClaims.EXPIRATION_TIME, AuthUtility.getRefreshTokenExpiryDate());
 		jwtClaims.put(JwtClaims.ISSUED_AT, new Date());
-		jwtClaims.put("roles", roles);
 
 		generator.setExpirationTime(AuthUtility.getRefreshTokenExpiryDate());
 		

@@ -2,15 +2,12 @@ package cropcert.user.api;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -57,8 +54,7 @@ public class AuthenticateApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.TEXT_PLAIN)
 	@ApiOperation(value = "Get new set of refresh token and access token", response = Map.class)
-	public Response getNewSetOfTokens(@Context HttpServletRequest request, @Context HttpServletResponse response,
-			@QueryParam("refreshToken") String refreshToken) {
+	public Response getNewSetOfTokens(@QueryParam("refreshToken") String refreshToken) {
 
 		// check for the valid refresh token
 		CommonProfile profile = SecurityInterceptor.jwtAuthenticator.validateToken(refreshToken);
