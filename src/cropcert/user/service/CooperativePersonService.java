@@ -37,12 +37,13 @@ public class CooperativePersonService extends AbstractService<CooperativePerson>
 	}
 
 	public CooperativePerson save(String jsonString) throws JsonParseException, JsonMappingException, IOException, JSONException {
-		CooperativePerson ccPerson = objectMapper.readValue(jsonString, CooperativePerson.class);
+		CooperativePerson coPerson = objectMapper.readValue(jsonString, CooperativePerson.class);
 		JSONObject jsonObject = new JSONObject(jsonString);
 		String password = jsonObject.getString("password");
 		password = passwordEncoder.encodePassword(password, null);
-		ccPerson.setPassword(password);
-		return save(ccPerson);
+		coPerson.setPassword(password);
+		coPerson.setPermissions(defaultPermissions);
+		return save(coPerson);
 	}
 
 }

@@ -42,6 +42,7 @@ public class FarmerService extends AbstractService<Farmer>{
 		String password = jsonObject.getString("password");
 		password = passwordEncoder.encodePassword(password, null);
 		farmer.setPassword(password);
+		farmer.setPermissions(defaultPermissions);
 		return save(farmer);
 	}
 	

@@ -36,12 +36,13 @@ public class FactoryPersonService extends AbstractService<FactoryPerson>{
 	}
 
 	public FactoryPerson save(String jsonString) throws JsonParseException, JsonMappingException, IOException, JSONException {
-		FactoryPerson ccPerson = objectMapper.readValue(jsonString, FactoryPerson.class);
+		FactoryPerson factoryPerson = objectMapper.readValue(jsonString, FactoryPerson.class);
 		JSONObject jsonObject = new JSONObject(jsonString);
 		String password = jsonObject.getString("password");
 		password = passwordEncoder.encodePassword(password, null);
-		ccPerson.setPassword(password);
-		return save(ccPerson);
+		factoryPerson.setPassword(password);
+		factoryPerson.setPermissions(defaultPermissions);
+		return save(factoryPerson);
 	}
 
 }

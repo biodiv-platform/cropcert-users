@@ -42,6 +42,7 @@ public class UnionPersonService extends AbstractService<UnionPerson>{
 		String password = jsonObject.getString("password");
 		password = passwordEncoder.encodePassword(password, null);
 		ccPerson.setPassword(password);
+		ccPerson.setPermissions(defaultPermissions);
 		return save(ccPerson);
 	}
 

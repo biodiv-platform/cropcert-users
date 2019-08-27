@@ -41,6 +41,7 @@ public class CollectionCenterPersonService extends AbstractService<CollectionCen
 		String password = jsonObject.getString("password");
 		password = passwordEncoder.encodePassword(password, null);
 		ccPerson.setPassword(password);
+		ccPerson.setPermissions(defaultPermissions);
 		return save(ccPerson);
 	}
 

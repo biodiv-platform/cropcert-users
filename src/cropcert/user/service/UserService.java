@@ -63,6 +63,7 @@ public class UserService extends AbstractService<User>{
 		String password = jsonObject.getString("password");
 		password = passwordEncoder.encodePassword(password, null);
 		user.setPassword(password);
+		user.setPermissions(defaultPermissions);
 		return save(user);
 	}
 
