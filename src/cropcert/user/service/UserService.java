@@ -2,11 +2,15 @@ package cropcert.user.service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.pac4j.core.profile.CommonProfile;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -17,6 +21,7 @@ import com.google.inject.Inject;
 import cropcert.user.api.CollectionCenterApi;
 import cropcert.user.api.CooperativeApi;
 import cropcert.user.dao.UserDao;
+import cropcert.user.filter.Permissions;
 import cropcert.user.model.CollectionCenter;
 import cropcert.user.model.CollectionCenterPerson;
 import cropcert.user.model.Cooperative;
@@ -41,32 +46,46 @@ public class UserService extends AbstractService<User>{
 	@Inject
 	private CollectionCenterApi collectionCenterApi;
 	
+	private static Set<String> defaultPermissions;
+	static {
+		defaultPermissions = new HashSet<String>();
+		defaultPermissions.add(Permissions.DEFAULT);
+	}
+	
 	@Inject
 	public UserService(UserDao userDao) {
 		super(userDao);
 	}
 	
+	public User save(String jsonString) throws JsonParseException, JsonMappingException, IOException, JSONException {
+		User user = objectMappper.readValue(jsonString, User.class);
+		JSONObject jsonObject = new JSONObject(jsonString);
+		String password = jsonObject.getString("password");
+		password = passwordEncoder.encodePassword(password, null);
+		user.setPassword(password);
+		return save(user);
+	}
+
+	public User getByEmail(String email) {
+		return findByPropertyWithCondtion("email", email, "=");
+	}
+	
+	public User getByUserName(String userName) {
+		return findByPropertyWithCondtion("userName", userName, "=");
+	}
+	
+	public User findByPropertyWithCondtion(String property, String value, String condition) {
+		return dao.findByPropertyWithCondition(property, value, condition);
+	}
+
 	public Map<String, Object> getMyData(HttpServletRequest request) {
 		CommonProfile profile = AuthUtility.getCurrentUser(request);
 		User user = findById(Long.parseLong(profile.getId()));
 		
 		Map<String, Object> myData = new HashMap<String, Object>();
-		/*
-		 * The normal user data
-		 */
-		myData.put("id", user.getId());
-		myData.put("userName", user.getUserName());
-		myData.put("email", user.getEmail());
-		myData.put("firstName", user.getFirstName());
-		myData.put("lastName", user.getLastName());
-		myData.put("gender", user.getGender());
-		myData.put("cellNumber", user.getCellNumber());
-		myData.put("dateOfBirth", user.getDateOfBirth());
-		myData.put("role", user.getRole());
+		myData.put("user", user);
 		
-		/*
-		 * Insert data specific to user
-		 */
+		// Insert data specific to user
 		myData.put("ccCode", -1);
 		myData.put("coCode", -1);
 		myData.put("unionCode", -1);
@@ -107,26 +126,4 @@ public class UserService extends AbstractService<User>{
 		}
 		return myData;
 	}
-
-	public User save(String jsonString) throws JsonParseException, JsonMappingException, IOException {
-		User user = objectMappper.readValue(jsonString, User.class);
-		String password = user.getPassword();
-		//password = PasswordEncoder.encode(password);
-		password = passwordEncoder.encodePassword(password, null);
-		user.setPassword(password);
-		return save(user);
-	}
-
-	public User getByEmail(String email) {
-		return findByPropertyWithCondtion("email", email, "=");
-	}
-	
-	public User getByUserName(String userName) {
-		return findByPropertyWithCondtion("userName", userName, "=");
-	}
-	
-	public User findByPropertyWithCondtion(String property, String value, String condition) {
-		return dao.findByPropertyWithCondition(property, value, condition);
-	}
-
 }

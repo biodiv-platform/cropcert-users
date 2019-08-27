@@ -83,6 +83,7 @@ public class AuthenticateService {
 		
 		Set<String> roles = new HashSet<String>();
 		roles.add(user.getRole());
+		Set<String> permissions = user.getPermissions();
 
 		Map<String, Object> jwtClaims = new HashMap<String, Object>();
 		jwtClaims.put("id", profile.getId());
@@ -92,6 +93,7 @@ public class AuthenticateService {
 		jwtClaims.put(JwtClaims.EXPIRATION_TIME, AuthUtility.getAccessTokenExpiryDate());
 		jwtClaims.put(JwtClaims.ISSUED_AT, new Date());
 		jwtClaims.put("roles", roles);
+		jwtClaims.put("permissions", permissions);
 
 		String jwtToken = generator.generate(jwtClaims);
 		return jwtToken;

@@ -18,6 +18,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.json.JSONException;
+
 import com.google.inject.Inject;
 
 import cropcert.user.filter.Permissions;
@@ -30,7 +32,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Path("coUser")
-@Api("Co operative person")
+@Api("Cooperative person")
 public class CooperativePersonApi {
 
 	private CooperativePersonService coPersonService;
@@ -78,7 +80,7 @@ public class CooperativePersonApi {
 		try {
 			coPerson = coPersonService.save(jsonString);
 			return Response.status(Status.CREATED).entity(coPerson).build();
-		} catch (IOException e) {
+		} catch (IOException | JSONException e) {
 			e.printStackTrace();
 		}
 		return Response.status(Status.NO_CONTENT).entity("Creation failed").build();

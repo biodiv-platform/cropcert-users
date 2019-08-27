@@ -1,12 +1,16 @@
 package cropcert.user.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -64,6 +68,10 @@ public class User implements Serializable {
 	private String village;
 	@Column(name = "sub_country") 
 	private String subCountry;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Column( name = "permissions")
+	private Set<String> permissions = new HashSet<String>();
 	
 	public long getId() {
 		return id;
@@ -142,9 +150,15 @@ public class User implements Serializable {
 		this.subCountry = subCountry;
 	}
 	
+	public Set<String> getPermissions() {
+		return permissions;
+	}
+	public void setPermissions(Set<String> permissions) {
+		this.permissions = permissions;
+	}
+
 	public String getRole() {
 		DiscriminatorValue value = this.getClass().getAnnotation(DiscriminatorValue.class);
 		return value == null ? null : value.value();
 	}
-
 }

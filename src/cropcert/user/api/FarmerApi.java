@@ -18,6 +18,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.json.JSONException;
+
 import com.google.inject.Inject;
 
 import cropcert.user.filter.Permissions;
@@ -96,7 +98,7 @@ public class FarmerApi {
 		try {
 			farmer = farmerService.save(jsonString);
 			return Response.status(Status.CREATED).entity(farmer).build();
-		} catch (IOException e) {
+		} catch (IOException | JSONException e) {
 			e.printStackTrace();
 		}
 		return Response.status(Status.NO_CONTENT).entity("Creation failed").build();
