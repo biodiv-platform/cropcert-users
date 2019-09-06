@@ -13,4 +13,4 @@ echo "📦 Building package"
 /opt/apache-maven/bin/mvn clean package
 
 echo "🚀 Uploading to tomcat"
-curl --upload-file target/users.war http://$SERVER_1/manager/text/deploy?path=/users&update=true
+curl --upload-file target/user.war http://$SERVER_1/manager/text/deploy?path=/user&update=true
