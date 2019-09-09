@@ -70,7 +70,6 @@ public class CollectionCenterApi {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get all the collection centers", response = CollectionCenter.class, responseContainer = "List")
-	@TokenAndUserAuthenticated(permissions = { Permissions.CC_PERSON })
 	public Response findAll(@Context HttpServletRequest request, @DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
 		List<CollectionCenter> collectionCenters;
