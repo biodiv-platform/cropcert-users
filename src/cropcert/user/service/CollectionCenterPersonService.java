@@ -28,6 +28,7 @@ public class CollectionCenterPersonService extends AbstractService<CollectionCen
 	static {
 		defaultPermissions = new HashSet<String>();
 		defaultPermissions.add(Permissions.CC_PERSON);
+		defaultPermissions.add(Permissions.FARMER);
 	}
 	
 	@Inject

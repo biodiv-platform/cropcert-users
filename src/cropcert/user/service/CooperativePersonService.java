@@ -34,6 +34,7 @@ public class CooperativePersonService extends AbstractService<CooperativePerson>
 		defaultPermissions = new HashSet<String>();
 		defaultPermissions.add(Permissions.CO_PERSON);
 		defaultPermissions.add(Permissions.CC_PERSON);
+		defaultPermissions.add(Permissions.FARMER);
 	}
 
 	public CooperativePerson save(String jsonString) throws JsonParseException, JsonMappingException, IOException, JSONException {
