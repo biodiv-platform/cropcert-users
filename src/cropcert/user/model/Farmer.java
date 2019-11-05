@@ -24,12 +24,20 @@ public class Farmer extends User{
 	
 	@Column(name = "membership_id", nullable=false)
 	private String membershipId;
-	@Column( name = "farm_code", nullable = false)
-	private String farmCode;
-	@Column( name = "farm_number", nullable = false)
-	private int farmNumber;
-	@Column (name = "cc_code")
-	private int ccCode;
+	@Column (name = "num_coffee_plots")
+	private Integer numCoffeePlots;
+	@Column (name = "num_coffee_Trees")
+	private Integer numCoffeeTrees;
+	@Column (name = "farm_area")
+	private Float farmArea;
+	@Column (name = "coffee_area")
+	private Float coffeeArea;
+	@Column (name = "is_ft")
+	private Boolean isFT;
+	@Column (name = "is_org")
+	private Boolean isOrg;
+	@Column (name = "cc_code", nullable = false)
+	private Long ccCode;
 
 	public String getMembershipId() {
 		return membershipId;
@@ -38,25 +46,52 @@ public class Farmer extends User{
 		this.membershipId = membershipId;
 	}
 
-	public String getFarmCode() {
-		return farmCode;
+	public Integer getNumCoffeePlots() {
+		return numCoffeePlots;
 	}
-	public void setFarmCode(String farmCode) {
-		this.farmCode = farmCode;
-	}
-
-	public int getFarmNumber() {
-		return farmNumber;
-	}
-	public void setFarmNumber(int farmNumber) {
-		this.farmNumber = farmNumber;
+	public void setNumCoffeePlots(Integer numCoffeePlots) {
+		this.numCoffeePlots = numCoffeePlots;
 	}
 
-	public int getCcCode() {
+	public Integer getNumCoffeeTrees() {
+		return numCoffeeTrees;
+	}
+	public void setNumCoffeeTrees(Integer numCoffeeTrees) {
+		this.numCoffeeTrees = numCoffeeTrees;
+	}
+
+	public Float getFarmArea() {
+		return farmArea;
+	}
+	public void setFarmArea(Float farmArea) {
+		this.farmArea = farmArea;
+	}
+
+	public Float getCoffeeArea() {
+		return coffeeArea;
+	}
+	public void setCoffeeArea(Float coffeeArea) {
+		this.coffeeArea = coffeeArea;
+	}
+
+	public Boolean getIsFT() {
+		return isFT;
+	}
+	public void setIsFT(Boolean isFT) {
+		this.isFT = isFT;
+	}
+
+	public Boolean getIsOrg() {
+		return isOrg;
+	}
+	public void setIsOrg(Boolean isOrg) {
+		this.isOrg = isOrg;
+	}
+
+	public Long getCcCode() {
 		return ccCode;
 	}
-	public void setCcCode(int ccCode) {
+	public void setCcCode(Long ccCode) {
 		this.ccCode = ccCode;
 	}
-
 }
