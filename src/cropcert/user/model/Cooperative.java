@@ -25,10 +25,30 @@ public class Cooperative extends CropcertEntity{
 	@Column (name = "union_code")
 	private Long unionCode;
 	
+	@Column(name = "num_farmer")
+	private Long numFarmer;
+	
+	@Column(name = "farmer_seq_number")
+	private Long farSeqNumber;
+	
 	public Long getUnionCode() {
 		return unionCode;
 	}
 	public void setUnionCode(Long unionCode) {
 		this.unionCode = unionCode;
+	}
+	
+	public Long getNumFarmer() {
+		return numFarmer;
+	}
+	public void setNumFarmer(Long numFarmer) {
+		this.numFarmer = numFarmer;
+	}
+	
+	public Long getFarSeqNumber() {
+		return farSeqNumber;
+	}
+	public void setFarSeqNumber(Long farSeqNumber) {
+		this.farSeqNumber = farSeqNumber;
 	}
 }

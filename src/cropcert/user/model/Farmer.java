@@ -38,6 +38,8 @@ public class Farmer extends User{
 	private Boolean isOrg;
 	@Column (name = "cc_code", nullable = false)
 	private Long ccCode;
+	@Column (name = "per_coop_id")
+	private Long perCoopId;
 
 	public String getMembershipId() {
 		return membershipId;
@@ -93,5 +95,12 @@ public class Farmer extends User{
 	}
 	public void setCcCode(Long ccCode) {
 		this.ccCode = ccCode;
+	}
+	
+	public Long getPerCoopId() {
+		return perCoopId;
+	}
+	public void setPerCoopId(Long perCoopId) {
+		this.perCoopId = perCoopId;
 	}
 }

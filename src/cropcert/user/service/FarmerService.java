@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.bind.ValidationException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +17,8 @@ import com.google.inject.Inject;
 
 import cropcert.user.dao.FarmerDao;
 import cropcert.user.filter.Permissions;
+import cropcert.user.model.CollectionCenter;
+import cropcert.user.model.Cooperative;
 import cropcert.user.model.Farmer;
 import cropcert.user.util.MessageDigestPasswordEncoder;
 
@@ -24,6 +28,12 @@ public class FarmerService extends AbstractService<Farmer>{
 	
 	@Inject
 	private MessageDigestPasswordEncoder passwordEncoder;
+	
+	@Inject 
+	private CollectionCenterService collectionCenterService;
+	
+	@Inject
+	private CooperativeService cooperativeService;
 
 	private static Set<String> defaultPermissions;
 	static {
@@ -36,13 +46,41 @@ public class FarmerService extends AbstractService<Farmer>{
 		super(farmerDao);
 	}
 
-	public Farmer save(String jsonString) throws JsonParseException, JsonMappingException, IOException, JSONException {
+	public Farmer save(String jsonString) throws JsonParseException, JsonMappingException, IOException, JSONException, ValidationException {
 		Farmer farmer = objectMapper.readValue(jsonString, Farmer.class);
 		JSONObject jsonObject = new JSONObject(jsonString);
 		String password = jsonObject.getString("password");
 		password = passwordEncoder.encodePassword(password, null);
 		farmer.setPassword(password);
 		farmer.setPermissions(defaultPermissions);
+		
+		String membershipId = farmer.getMembershipId();
+		if(membershipId == null) {
+			membershipId = "";
+			Long ccCode = farmer.getCcCode();
+			if(ccCode == null)
+				throw new ValidationException("Collection center code is compulsory");
+			CollectionCenter collectionCenter = collectionCenterService.findByPropertyWithCondtion("code", ccCode, "=");
+			Cooperative cooperative = cooperativeService.findByPropertyWithCondtion("code", collectionCenter.getCoCode(), "=");
+			Long union = cooperative.getUnionCode();
+			
+			Long seqNumber = cooperative.getFarSeqNumber();
+			Long numFarmer = cooperative.getNumFarmer();
+			
+			membershipId += union;
+			membershipId += "-" + cooperative.getCode();
+			membershipId += "-" + collectionCenter.getCode();
+			membershipId += "-" + seqNumber;
+			
+			farmer.setPerCoopId(seqNumber);
+			farmer.setMembershipId(membershipId);
+			
+			cooperative.setFarSeqNumber(seqNumber + 1);
+			cooperative.setNumFarmer(numFarmer + 1);
+			
+			cooperativeService.update(cooperative);
+		}
+		
 		return save(farmer);
 	}
 	

@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.xml.bind.ValidationException;
 
 import org.json.JSONException;
 
@@ -100,6 +101,8 @@ public class FarmerApi {
 			return Response.status(Status.CREATED).entity(farmer).build();
 		} catch (IOException | JSONException e) {
 			e.printStackTrace();
+		} catch (ValidationException e) {
+			return Response.status(Status.NO_CONTENT).entity(e.getMessage()).build();
 		}
 		return Response.status(Status.NO_CONTENT).entity("Creation failed").build();
 	}
