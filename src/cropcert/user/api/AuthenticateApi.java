@@ -50,9 +50,8 @@ public class AuthenticateApi {
 	}
 
 	@POST
-	@Path("newTokens")
+	@Path("renew")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.TEXT_PLAIN)
 	@ApiOperation(value = "Get new set of refresh token and access token", response = Map.class)
 	public Response getNewSetOfTokens(@QueryParam("refreshToken") String refreshToken) {
 
