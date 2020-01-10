@@ -86,7 +86,7 @@ public class CollectionCenterApi {
 	@ApiOperation(value = "Get list of cc by co-operative code", response = CollectionCenter.class, responseContainer = "List")
 	public Response findAll(@Context HttpServletRequest request, @PathParam("coCode") Long coCode) {
 		List<CollectionCenter> collectionCenters = collectionCenterService.getByPropertyWithCondtion("coCode", coCode,
-				"=", -1, -1);
+				"=", -1, -1, "name");
 		return Response.ok().entity(collectionCenters).build();
 	}
 

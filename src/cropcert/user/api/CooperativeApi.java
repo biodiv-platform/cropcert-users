@@ -73,7 +73,7 @@ public class CooperativeApi {
 	public Response getByUnion(@Context HttpServletRequest request,
 			@DefaultValue("-1") @QueryParam("unionCode") Long unionCode) {
 		List<Cooperative> cooperatives = cooperativeService.getByPropertyWithCondtion("unionCode", unionCode, "=", -1,
-				-1);
+				-1, "name");
 		return Response.ok().entity(cooperatives).build();
 	}
 

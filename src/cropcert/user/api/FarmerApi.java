@@ -82,8 +82,7 @@ public class FarmerApi {
 		int limit = Integer.parseInt(limitString);
 		int offset = Integer.parseInt(offsetString);
 
-		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset);
-		;
+		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset, "name");
 		return Response.ok().entity(farmers).build();
 	}
 
