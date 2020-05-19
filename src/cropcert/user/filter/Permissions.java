@@ -10,6 +10,7 @@ public interface Permissions {
 	public static final String CO_PERSON = "co";
 	public static final String FACTORY   = "factory";
 	public static final String UNION     = "union";
+	public static final String INSPECTOR = "inspector";
 	public static final String ADMIN     = "admin";
 	public static final String DEFAULT   = "default";
 	
