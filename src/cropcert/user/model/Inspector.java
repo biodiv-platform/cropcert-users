@@ -24,8 +24,8 @@ public class Inspector extends User{
 
 	@Column(name = "membership_id", nullable=false)
 	private String membershipId;
-	@Column (name = "co_code")
-	private int coCode;
+	@Column (name = "union_code")
+	private int unionCode;
 	
 	public String getMembershipId() {
 		return membershipId;
@@ -33,11 +33,11 @@ public class Inspector extends User{
 	public void setMembershipId(String membershipId) {
 		this.membershipId = membershipId;
 	}
-	public int getCoCode() {
-		return coCode;
+	public int getUnionCode() {
+		return unionCode;
 	}
-	public void setCoCode(int coCode) {
-		this.coCode = coCode;
+	public void setUnionCode(int unionCode) {
+		this.unionCode = unionCode;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
