@@ -74,15 +74,10 @@ public class FarmerApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get list of farmer by collection center", response = Farmer.class, responseContainer = "List")
 	public Response getFarmerForCollectionCenter(@Context HttpServletRequest request,
-			@DefaultValue("-1") @QueryParam("ccCode") String ccCodeString,
-			@DefaultValue("-1") @QueryParam("limit") String limitString,
-			@DefaultValue("-1") @QueryParam("offset") String offsetString) {
-
-		int ccCode = Integer.parseInt(ccCodeString);
-		int limit = Integer.parseInt(limitString);
-		int offset = Integer.parseInt(offsetString);
-
-		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset, "name");
+			@DefaultValue("-1") @QueryParam("ccCode") Long ccCode,
+			@DefaultValue("-1") @QueryParam("limit") Integer limit,
+			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset, "firstName");
 		return Response.ok().entity(farmers).build();
 	}
 
