@@ -2,7 +2,6 @@ package cropcert.user.service;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.ValidationException;
@@ -72,7 +71,7 @@ public class FarmerService extends AbstractService<Farmer>{
 			membershipId += "-" + collectionCenter.getCode();
 			membershipId += "-" + seqNumber;
 			
-			farmer.setPerCoopId(seqNumber);
+			farmer.setFieldCoOrdinator(seqNumber);
 			farmer.setMembershipId(membershipId);
 			
 			cooperative.setFarSeqNumber(seqNumber + 1);

@@ -1,6 +1,7 @@
 package cropcert.user.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,7 +58,7 @@ public class User implements Serializable {
 	@Column(name = "last_name")
 	private String lastName;
 	@Column(name = "date_of_birth") 
-	private String dateOfBirth;
+	private Timestamp dateOfBirth;
 	@Column(name = "gender") 
 	private String gender;
 	@Column(name = "cell_number") 
@@ -108,10 +109,10 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 	
-	public String getDateOfBirth() {
+	public Timestamp getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(Timestamp dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
