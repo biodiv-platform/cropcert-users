@@ -37,6 +37,12 @@ public class Farmer extends User {
 	private String farmerCode;
 	@Column(name = "cc_code", nullable = false)
 	private Long ccCode;
+	@Column(name = "cc_name")
+	private String ccName;
+	@Column(name = "co_name")
+	private String coName;
+	@Column(name = "union_name")
+	private String unionName;
 	@Column(name = "field_coordinator")
 	private Long fieldCoOrdinator;
 
@@ -45,7 +51,7 @@ public class Farmer extends User {
 	}
 
 	public Farmer(String membershipId, Integer numCoffeePlots, Integer numCoffeeTrees, Float farmArea, Float coffeeArea,
-			String farmerCode, Long ccCode, Long fieldCoOrdinator) {
+			String farmerCode, Long ccCode, String ccName, String coName, String unionName, Long fieldCoOrdinator) {
 		super();
 		this.membershipId = membershipId;
 		this.numCoffeePlots = numCoffeePlots;
@@ -54,6 +60,9 @@ public class Farmer extends User {
 		this.coffeeArea = coffeeArea;
 		this.farmerCode = farmerCode;
 		this.ccCode = ccCode;
+		this.ccName = ccName;
+		this.coName = coName;
+		this.unionName = unionName;
 		this.fieldCoOrdinator = fieldCoOrdinator;
 	}
 
@@ -111,6 +120,30 @@ public class Farmer extends User {
 
 	public void setCcCode(Long ccCode) {
 		this.ccCode = ccCode;
+	}
+
+	public String getCcName() {
+		return ccName;
+	}
+
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+
+	public String getCoName() {
+		return coName;
+	}
+
+	public void setCoName(String coName) {
+		this.coName = coName;
+	}
+
+	public String getUnionName() {
+		return unionName;
+	}
+
+	public void setUnionName(String unionName) {
+		this.unionName = unionName;
 	}
 
 	public Long getFieldCoOrdinator() {

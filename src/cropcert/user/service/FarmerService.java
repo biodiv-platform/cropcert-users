@@ -19,6 +19,7 @@ import cropcert.user.filter.Permissions;
 import cropcert.user.model.CollectionCenter;
 import cropcert.user.model.Cooperative;
 import cropcert.user.model.Farmer;
+import cropcert.user.model.Union;
 import cropcert.user.util.MessageDigestPasswordEncoder;
 
 public class FarmerService extends AbstractService<Farmer>{
@@ -33,6 +34,9 @@ public class FarmerService extends AbstractService<Farmer>{
 	
 	@Inject
 	private CooperativeService cooperativeService;
+	
+	@Inject
+	private UnionService unionService;
 
 	private static Set<String> defaultPermissions;
 	static {
@@ -54,13 +58,14 @@ public class FarmerService extends AbstractService<Farmer>{
 		farmer.setPermissions(defaultPermissions);
 		
 		String membershipId = farmer.getMembershipId();
+		Long ccCode = farmer.getCcCode();
+		if(ccCode == null)
+			throw new ValidationException("Collection center code is compulsory");
+		CollectionCenter collectionCenter = collectionCenterService.findByPropertyWithCondtion("code", ccCode, "=");
+		Cooperative cooperative = cooperativeService.findByPropertyWithCondtion("code", collectionCenter.getCoCode(), "=");
+		
 		if(membershipId == null) {
 			membershipId = "";
-			Long ccCode = farmer.getCcCode();
-			if(ccCode == null)
-				throw new ValidationException("Collection center code is compulsory");
-			CollectionCenter collectionCenter = collectionCenterService.findByPropertyWithCondtion("code", ccCode, "=");
-			Cooperative cooperative = cooperativeService.findByPropertyWithCondtion("code", collectionCenter.getCoCode(), "=");
 			Long union = cooperative.getUnionCode();
 			
 			Long seqNumber = cooperative.getFarSeqNumber();
@@ -79,6 +84,10 @@ public class FarmerService extends AbstractService<Farmer>{
 			
 			cooperativeService.update(cooperative);
 		}
+		farmer.setCcName(collectionCenter.getName());
+		farmer.setCoName(cooperative.getName());
+		Union unionObject = unionService.findById(cooperative.getUnionCode());
+		farmer.setUnionName(unionObject.getName());
 		
 		return save(farmer);
 	}
