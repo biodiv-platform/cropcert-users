@@ -13,5 +13,6 @@ public interface Permissions {
 	public static final String INSPECTOR = "inspector";
 	public static final String ADMIN     = "admin";
 	public static final String DEFAULT   = "default";
+	public static final String ICS_MANAGER = "icsManager";
 	
 }
