@@ -69,6 +69,8 @@ public class User implements Serializable {
 	private String village;
 	@Column(name = "sub_country") 
 	private String subCountry;
+	@Column(name = "sign") 
+	private String sign;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Column( name = "permissions")
@@ -149,6 +151,13 @@ public class User implements Serializable {
 	}
 	public void setSubCountry(String subCountry) {
 		this.subCountry = subCountry;
+	}
+	
+	public String getSign() {
+		return sign;
+	}
+	public void setSign(String sign) {
+		this.sign = sign;
 	}
 	
 	public Set<String> getPermissions() {
