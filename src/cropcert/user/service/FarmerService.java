@@ -1,7 +1,9 @@
 package cropcert.user.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.ValidationException;
@@ -94,5 +96,18 @@ public class FarmerService extends AbstractService<Farmer>{
 	
 	public Farmer findByPropertyWithCondtion(String property, String value, String condition) {
 		return dao.findByPropertyWithCondition(property, value, condition);
+	}
+
+	public List<Farmer> getFarmerForMultipleCollectionCenter(String ccCodes, String firstName, Integer limit,
+			Integer offset) {
+		List<Long> ccCodesLong = new ArrayList<Long>();
+		
+		String [] ccCodesString = ccCodes.split(",");
+		for(String ccCodeString : ccCodesString) {
+			Long ccCode = Long.parseLong(ccCodeString);
+			ccCodesLong.add(ccCode);
+		}
+		
+		return ((FarmerDao) dao).getFarmerForMultipleCollectionCenter(ccCodesLong, firstName, limit, offset);
 	}
 }

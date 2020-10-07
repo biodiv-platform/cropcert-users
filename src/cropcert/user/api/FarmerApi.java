@@ -80,6 +80,27 @@ public class FarmerApi {
 		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset, "firstName");
 		return Response.ok().entity(farmers).build();
 	}
+	
+	/**
+	 * @param request - HttpRequest 
+	 * @param ccCodes - String with comma separated values
+	 * @param farmerName - Name like farmerName
+	 * @param limit - limit 
+	 * @param offset - offset
+	 * @return
+	 */
+	@Path("ccCodes")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get list of farmer by collection center", response = Farmer.class, responseContainer = "List")
+	public Response getFarmerForMultipleCollectionCenter(@Context HttpServletRequest request,
+			@DefaultValue("-1")  @QueryParam("ccCodes") String ccCodes,
+			@QueryParam("firstName") String firstName,
+			@DefaultValue("-1") @QueryParam("limit") Integer limit,
+			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
+		List<Farmer> farmers = farmerService.getFarmerForMultipleCollectionCenter(ccCodes, firstName, limit, offset);
+		return Response.ok().entity(farmers).build();
+	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

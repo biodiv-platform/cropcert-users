@@ -1,7 +1,12 @@
 package cropcert.user.dao;
 
+import java.util.List;
+
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import com.google.inject.Inject;
 
@@ -26,5 +31,32 @@ public class FarmerDao extends AbstractDao<Farmer, Long>{
 			session.close();
 		}
 		return entity;
+	}
+
+	public List<Farmer> getFarmerForMultipleCollectionCenter(List<Long> ccCodesLong, String firstName, Integer limit,
+			Integer offset) {
+		
+		String ccCodesString = "(";
+		for (Long farmerId : ccCodesLong) {
+			ccCodesString += farmerId + ",";
+		}
+		ccCodesString += "-1)";
+
+		String queryStr = " from " + daoType.getSimpleName() + " t "
+				+ " where ccCode in " + ccCodesString + (firstName == null ? "": " and firstName like :firstName");
+
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery(queryStr, Farmer.class);
+		if(firstName != null)
+			query.setParameter("firstName", "%" + firstName + "%");
+		
+		try {
+			List<Farmer> result = (List<Farmer>) query.getResultList();
+			return result;
+		} catch (NoResultException e) {
+			throw e;
+		} finally {
+			session.close();
+		}
 	}
 }
