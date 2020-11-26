@@ -43,7 +43,7 @@ public class FarmerDao extends AbstractDao<Farmer, Long>{
 		ccCodesString += "-1)";
 
 		String queryStr = " from " + daoType.getSimpleName() + " t "
-				+ " where ccCode in " + ccCodesString + (firstName == null ? "": " and firstName like :firstName");
+				+ " where ccCode in " + ccCodesString + (firstName == null || "".equals(firstName) ? "": " and firstName like :firstName");
 
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery(queryStr, Farmer.class);

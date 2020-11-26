@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -111,6 +113,21 @@ public class UserApi {
 			e.printStackTrace();
 		}
 		return Response.status(Status.NO_CONTENT).entity("Creation failed").build();
+	}
+	
+	@POST
+	@Path("password")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@ApiOperation(value = "update the user password", response = User.class)
+	public Response updatePassword(@Context HttpServletRequest request, @FormParam("password") String password) {
+		try {
+			if(request == null) throw new Exception("Token missing");
+			User user = userService.updatePassword(request, password);
+			return Response.status(Status.CREATED).entity(user).build();
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity("Password update failed").build();
+		}
 	}
 
 	@GET

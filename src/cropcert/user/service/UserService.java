@@ -74,6 +74,16 @@ public class UserService extends AbstractService<User> {
 		return save(user);
 	}
 
+	public User updatePassword(HttpServletRequest request, String password) {
+		
+		CommonProfile profile = AuthUtility.getCurrentUser(request);
+		User user = findById(Long.parseLong(profile.getId()));
+		
+		password = passwordEncoder.encodePassword(password, null);
+		user.setPassword(password);
+		return update(user);
+	}
+	
 	public User getByEmail(String email) {
 		return findByPropertyWithCondtion("email", email, "=");
 	}
