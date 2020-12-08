@@ -32,6 +32,7 @@ import cropcert.user.model.CollectionCenter;
 import cropcert.user.model.CollectionCenterPerson;
 import cropcert.user.model.Cooperative;
 import cropcert.user.model.CooperativePerson;
+import cropcert.user.model.ICSManager;
 import cropcert.user.model.Inspector;
 import cropcert.user.model.UnionPerson;
 import cropcert.user.model.User;
@@ -113,6 +114,8 @@ public class UserService extends AbstractService<User> {
 			myData.put("unionCode", ((UnionPerson) user).getUnionCode());
 		} else if (user instanceof Inspector) {
 			myData.put("unionCode", ((Inspector) user).getUnionCode());
+		} else if (user instanceof ICSManager) {
+			myData.put("unionCode", ((ICSManager) user).getUnionCode());
 		} else if (user instanceof CooperativePerson) {
 			CooperativePerson coPerson = (CooperativePerson) user;
 
