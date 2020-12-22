@@ -22,7 +22,6 @@ import com.google.inject.Inject;
 
 import cropcert.user.filter.Permissions;
 import cropcert.user.filter.TokenAndUserAuthenticated;
-import cropcert.user.model.CollectionCenter;
 import cropcert.user.model.CollectionCenterPerson;
 import cropcert.user.model.Cooperative;
 import cropcert.user.service.CooperativeService;
@@ -58,9 +57,9 @@ public class CooperativeApi {
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get co-opearative by its code", response = CollectionCenter.class)
+	@ApiOperation(value = "Get co-opearative by its code", response = Cooperative.class)
 	public Response findByCode(@Context HttpServletRequest request, @PathParam("code") Long code) {
-		Cooperative cooperative = cooperativeService.findByPropertyWithCondtion("code", code, "=");
+		Cooperative cooperative = cooperativeService.findByCode(code);
 		if (cooperative == null)
 			return Response.status(Status.NO_CONTENT).build();
 		return Response.ok().entity(cooperative).build();

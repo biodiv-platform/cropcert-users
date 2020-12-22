@@ -1,27 +1,34 @@
 package cropcert.user.service;
 
 import java.io.IOException;
+import java.util.List;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
 import cropcert.user.dao.CooperativeDao;
 import cropcert.user.model.Cooperative;
 
-public class CooperativeService extends AbstractService<Cooperative>{
+public class CooperativeService extends AbstractService<Cooperative> {
 
-	@Inject ObjectMapper objectMapper;
-	
+	@Inject
+	ObjectMapper objectMapper;
+
 	@Inject
 	public CooperativeService(CooperativeDao dao) {
 		super(dao);
 	}
-	
-	public Cooperative save(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+
+	public Cooperative save(String jsonString) throws IOException {
 		Cooperative coOperative = objectMapper.readValue(jsonString, Cooperative.class);
 		return save(coOperative);
 	}
 
+	public Cooperative findByCode(Long code) {
+		return findByPropertyWithCondtion("code", code, "=");
+	}
+
+	public List<Cooperative> getByUnion(Long unionCode) {
+		return getByPropertyWithCondtion("unionCode", unionCode, "=", -1, -1, "name");
+	}
 }

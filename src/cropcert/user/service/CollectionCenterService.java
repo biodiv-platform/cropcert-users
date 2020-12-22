@@ -7,24 +7,27 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
-import cropcert.user.api.CooperativeApi;
 import cropcert.user.dao.CollectionCenterDao;
-import cropcert.user.model.Cooperative;
 import cropcert.user.model.CollectionCenter;
+import cropcert.user.model.Cooperative;
+import cropcert.user.model.Union;
+import cropcert.user.model.response.CollectionCenterShow;
 
 public class CollectionCenterService extends AbstractService<CollectionCenter>{
 
 	@Inject ObjectMapper objectMapper;
 	
 	@Inject
-	private CooperativeApi cooperativeService;
+	private CooperativeService cooperativeService;
+	
+	@Inject
+	private UnionService unionService;
 	
 	@Inject
 	public CollectionCenterService(CollectionCenterDao dao) {
@@ -49,15 +52,31 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(coCode != null && coCode != -1) {
-			Response r = cooperativeService.findByCode(request, coCode);
-			if(r.getEntity() != null) {
-				Cooperative cooperative = (Cooperative) r.getEntity();
+			Cooperative cooperative = cooperativeService.findByCode(coCode);
+			if(cooperative != null)
 				result.put("cooperativeName", cooperative.getName());
-			}
 		}
 		result.put("ccNames", ccNames);
 		
 		return result;
+	}
+
+	public List<CollectionCenterShow> findAllByCoCode(HttpServletRequest request, Long coCode) {
+		List<CollectionCenter> collectionCenters = getByPropertyWithCondtion("coCode", coCode,
+				"=", -1, -1, "name");
+		
+		List<CollectionCenterShow> collectionCenterShows = new ArrayList<CollectionCenterShow>();
+		if(collectionCenters.isEmpty()) return collectionCenterShows;
+		
+		Cooperative cooperative = cooperativeService.findByCode(coCode);
+		Union union = unionService.findByCode(cooperative.getUnionCode());
+		String coName = cooperative.getName();
+		String unionName = union.getName();
+		for(CollectionCenter collectionCenter : collectionCenters) {
+			CollectionCenterShow collectionCenterShow = new CollectionCenterShow(collectionCenter, coName, unionName);
+			collectionCenterShows.add(collectionCenterShow);
+		}
+		return collectionCenterShows;
 	}
 
 }

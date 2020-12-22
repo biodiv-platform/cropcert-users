@@ -25,6 +25,7 @@ import cropcert.user.filter.Permissions;
 import cropcert.user.filter.TokenAndUserAuthenticated;
 import cropcert.user.model.CollectionCenter;
 import cropcert.user.model.CollectionCenterPerson;
+import cropcert.user.model.response.CollectionCenterShow;
 import cropcert.user.service.CollectionCenterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -83,11 +84,10 @@ public class CollectionCenterApi {
 	@Path("coCode/{coCode}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get list of cc by co-operative code", response = CollectionCenter.class, responseContainer = "List")
+	@ApiOperation(value = "Get list of cc by co-operative code", response = CollectionCenterShow.class, responseContainer = "List")
 	public Response findAll(@Context HttpServletRequest request, @PathParam("coCode") Long coCode) {
-		List<CollectionCenter> collectionCenters = collectionCenterService.getByPropertyWithCondtion("coCode", coCode,
-				"=", -1, -1, "name");
-		return Response.ok().entity(collectionCenters).build();
+		List<CollectionCenterShow> collectionCenterShows = collectionCenterService.findAllByCoCode(request, coCode);
+		return Response.ok().entity(collectionCenterShows).build();
 	}
 
 	@Path("origin")

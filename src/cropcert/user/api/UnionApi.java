@@ -60,7 +60,7 @@ public class UnionApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get union by its code", response = CollectionCenter.class)
 	public Response findByCode(@Context HttpServletRequest request, @PathParam("code") Long code) {
-		Union union = unionService.findByPropertyWithCondtion("code", code, "=");
+		Union union = unionService.findByCode(code);
 		if (union == null)
 			return Response.status(Status.NO_CONTENT).build();
 		return Response.ok().entity(union).build();

@@ -23,4 +23,8 @@ public class UnionService extends AbstractService<Union>{
 		Union union = objectMapper.readValue(jsonString, Union.class);
 		return save(union);
 	}
+
+	public Union findByCode(Long code) {
+		return findByPropertyWithCondtion("code", code, "=");
+	}
 }
