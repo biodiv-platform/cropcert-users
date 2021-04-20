@@ -25,6 +25,6 @@ public class UnionService extends AbstractService<Union>{
 	}
 
 	public Union findByCode(Long code) {
-		return findByPropertyWithCondtion("code", code, "=");
+		return findByPropertyWithCondition("code", code, "=");
 	}
 }

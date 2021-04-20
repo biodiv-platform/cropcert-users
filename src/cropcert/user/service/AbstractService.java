@@ -11,6 +11,7 @@ public abstract class  AbstractService<T> {
 	public Class<T> entityClass;
 	protected  AbstractDao<T, Long> dao;
 	
+	@SuppressWarnings("unchecked")
 	public AbstractService(AbstractDao<T, Long> dao) {
 		System.out.println("\nAbstractService constructor");
 		this.dao = dao;
@@ -74,7 +75,7 @@ public abstract class  AbstractService<T> {
 		}
 	}
 	
-	public T findByPropertyWithCondtion(String property, Object value, String condition) {
+	public T findByPropertyWithCondition(String property, Object value, String condition) {
 		return dao.findByPropertyWithCondition(property, value, condition);
 	}
 	

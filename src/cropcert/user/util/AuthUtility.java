@@ -84,5 +84,4 @@ public class AuthUtility {
 	public static CommonProfile getCurrentUser(HttpServletRequest request, HttpServletResponse response) {
 		return getCommonProfile(request);
 	}
- 
 }

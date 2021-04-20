@@ -25,7 +25,7 @@ public class CooperativeService extends AbstractService<Cooperative> {
 	}
 
 	public Cooperative findByCode(Long code) {
-		return findByPropertyWithCondtion("code", code, "=");
+		return findByPropertyWithCondition("code", code, "=");
 	}
 
 	public List<Cooperative> getByUnion(Long unionCode) {

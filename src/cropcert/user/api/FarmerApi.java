@@ -2,6 +2,7 @@ package cropcert.user.api;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -13,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,10 +24,12 @@ import javax.xml.bind.ValidationException;
 import org.json.JSONException;
 
 import com.google.inject.Inject;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 import cropcert.user.filter.Permissions;
 import cropcert.user.filter.TokenAndUserAuthenticated;
 import cropcert.user.model.Farmer;
+import cropcert.user.model.request.FarmerFileMetaData;
 import cropcert.user.service.FarmerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -77,16 +81,17 @@ public class FarmerApi {
 			@DefaultValue("-1") @QueryParam("ccCode") Long ccCode,
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
-		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset, "firstName");
+		List<Farmer> farmers = farmerService.getByPropertyWithCondtion("ccCode", ccCode, "=", limit, offset,
+				"firstName");
 		return Response.ok().entity(farmers).build();
 	}
-	
+
 	/**
-	 * @param request - HttpRequest 
-	 * @param ccCodes - String with comma separated values
+	 * @param request    - HttpRequest
+	 * @param ccCodes    - String with comma separated values
 	 * @param farmerName - Name like farmerName
-	 * @param limit - limit 
-	 * @param offset - offset
+	 * @param limit      - limit
+	 * @param offset     - offset
 	 * @return
 	 */
 	@Path("ccCodes")
@@ -94,12 +99,29 @@ public class FarmerApi {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Get list of farmer by collection center", response = Farmer.class, responseContainer = "List")
 	public Response getFarmerForMultipleCollectionCenter(@Context HttpServletRequest request,
-			@DefaultValue("-1")  @QueryParam("ccCodes") String ccCodes,
-			@QueryParam("firstName") String firstName,
+			@DefaultValue("-1") @QueryParam("ccCodes") String ccCodes, @QueryParam("firstName") String firstName,
 			@DefaultValue("-1") @QueryParam("limit") Integer limit,
 			@DefaultValue("-1") @QueryParam("offset") Integer offset) {
 		List<Farmer> farmers = farmerService.getFarmerForMultipleCollectionCenter(ccCodes, firstName, limit, offset);
 		return Response.ok().entity(farmers).build();
+	}
+
+	@POST
+	@Path("bulk")
+	@Consumes({ MediaType.MULTIPART_FORM_DATA })
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Save the farmer in bulk", notes = "Input to the api is two files, one csv and other metadata.json. metadata.json can be form with the POJO of response", response = FarmerFileMetaData.class)
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header") })
+	@TokenAndUserAuthenticated(permissions = { Permissions.ADMIN })
+	public Response bulkFarmerSave(@Context HttpServletRequest request, final FormDataMultiPart multiPart) {
+		try {
+			Map<String, Object> result = farmerService.bulkFarmerSave(request, multiPart);
+			return Response.ok().entity(result).build();
+		} catch (Exception e) {
+			throw new WebApplicationException(
+					Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+		}
 	}
 
 	@POST
