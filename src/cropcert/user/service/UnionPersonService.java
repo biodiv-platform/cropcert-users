@@ -28,10 +28,10 @@ public class UnionPersonService extends AbstractService<UnionPerson>{
 	static {
 		defaultPermissions = new HashSet<String>();
 		defaultPermissions.add(Permissions.UNION);
-		defaultPermissions.add(Permissions.FACTORY);
-		defaultPermissions.add(Permissions.CO_PERSON);
-		defaultPermissions.add(Permissions.CC_PERSON);
-		defaultPermissions.add(Permissions.FARMER);
+		//defaultPermissions.add(Permissions.FACTORY);
+		//defaultPermissions.add(Permissions.CO_PERSON);
+		//defaultPermissions.add(Permissions.CC_PERSON);
+		//defaultPermissions.add(Permissions.FARMER);
 	}
 	
 	@Inject
