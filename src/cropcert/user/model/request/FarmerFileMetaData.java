@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -26,6 +27,8 @@ public class FarmerFileMetaData {
 	private String fileType;
 
 	private String ccNameColumnName;
+	private String ccCodeColumnName;
+	private String farmerCodeColumnName;
 	private String farmerIdColumnName;
 	private String nameColumnName;
 	private String genderColumnName;
@@ -44,7 +47,11 @@ public class FarmerFileMetaData {
 	@JsonIgnore
 	private Integer ccNameColumnIndex;
 	@JsonIgnore
+	private Integer ccCodeColumnIndex;
+	@JsonIgnore
 	private Integer farmerIdColumnIndex;
+	@JsonIgnore
+	private Integer farmerCodeColumnIndex;
 	@JsonIgnore
 	private Integer nameColumnIndex;
 	@JsonIgnore
@@ -80,7 +87,7 @@ public class FarmerFileMetaData {
 	private UnionService unionService;
 
 	@JsonIgnore
-	private Map<String, CollectionCenter> collectionCenterMap = new HashMap<String, CollectionCenter>();
+	private Map<String, List<CollectionCenter>> collectionCenterMap = new HashMap<>();
 
 	@JsonIgnore
 	private Map<Long, Cooperative> coCodeToCooperativeMap = new HashMap<Long, Cooperative>();
@@ -107,7 +114,8 @@ public class FarmerFileMetaData {
 
 	public boolean validateIndices(String[] headers) {
 
-		if (!fileType.equals("csv") || ccNameColumnName == null || farmerIdColumnName == null || nameColumnName == null
+		if (!fileType.equals("csv") || (ccNameColumnName == null && ccCodeColumnName == null)
+				|| (farmerCodeColumnName == null && farmerIdColumnName == null) || nameColumnName == null
 				|| genderColumnName == null)
 			return false;
 
@@ -116,6 +124,10 @@ public class FarmerFileMetaData {
 
 			if (header.equalsIgnoreCase(ccNameColumnName))
 				ccNameColumnIndex = i;
+			else if (header.equalsIgnoreCase(ccCodeColumnName))
+				ccCodeColumnIndex = i;
+			else if (header.equalsIgnoreCase(farmerCodeColumnName))
+				farmerCodeColumnIndex = i;
 			else if (header.equalsIgnoreCase(farmerIdColumnName))
 				farmerIdColumnIndex = i;
 			else if (header.equalsIgnoreCase(nameColumnName))
@@ -151,28 +163,34 @@ public class FarmerFileMetaData {
 		if (data[nameColumnIndex] == null && "".equals(data[nameColumnIndex].trim())) {
 			throw new IOException("Name missing");
 		}
-		if (data[ccNameColumnIndex] == null && "".equals(data[ccNameColumnIndex].trim())) {
-			throw new IOException("CC Name missing");
+		if ((data[ccNameColumnIndex] == null && "".equals(data[ccNameColumnIndex].trim()))
+				|| (data[ccCodeColumnIndex] == null && "".equals(data[ccCodeColumnIndex].trim()))) {
+			throw new IOException("CC Name and/or code missing");
 		}
-		if (data[farmerIdColumnIndex] == null && "".equals(data[farmerIdColumnIndex].trim())) {
+		if ((data[farmerIdColumnIndex] == null && "".equals(data[farmerIdColumnIndex].trim()))
+				|| (data[farmerCodeColumnIndex] == null && "".equals(data[farmerCodeColumnIndex].trim()))) {
 			throw new IOException("Farmer id missing");
 		}
 		if (data[genderColumnIndex] == null && "".equals(data[genderColumnIndex].trim())) {
 			throw new IOException("Gender missing");
 		}
 
-		String ccName = data[ccNameColumnIndex].trim();
 		CollectionCenter cc;
 		try {
-			if (collectionCenterMap.containsKey(ccName))
-				cc = collectionCenterMap.get(ccName);
-			else {
-				cc = collectionCenterService.findByPropertyWithCondition("name", data[ccNameColumnIndex].trim(), "=");
-				collectionCenterMap.put(ccName, cc);
-			}
+			cc = collectionCenterService.findByName(data[ccNameColumnIndex], data[ccCodeColumnIndex]);
 		} catch (Exception e) {
 			throw new IOException("Invalid collection center : " + data[ccNameColumnIndex]);
 		}
+		if (cc == null)
+			throw new IOException("Invalid collection center : " + data[ccNameColumnIndex]);
+		/*
+		 * try { if (collectionCenterMap.containsKey(ccName)) { cc =
+		 * collectionCenterMap.get(ccName); } else { cc =
+		 * collectionCenterService.findByName(data[ccNameColumnIndex]);//
+		 * findByPropertyWithCondition("name", data[ccNameColumnIndex].trim(), "=");
+		 * collectionCenterMap.put(ccName, cc); } } catch (Exception e) { throw new
+		 * IOException("Invalid collection center : " + data[ccNameColumnIndex]); }
+		 */
 
 		if (validation) {
 			return null;
@@ -181,7 +199,7 @@ public class FarmerFileMetaData {
 		Farmer farmer = new Farmer();
 		farmer.setPassword(RandomStringUtils.randomAlphanumeric(8));
 
-		String[] names = data[nameColumnIndex].split(" ");
+		String[] names = data[nameColumnIndex].split("\\s+");
 		if (names.length > 0)
 			farmer.setFirstName(names[0]);
 		else
@@ -216,15 +234,16 @@ public class FarmerFileMetaData {
 
 		// Need to modify the number of plots to Float in futre if possible
 		if (numCoffeePlotsColumnIndex != null && !"".equals(data[numCoffeePlotsColumnIndex].trim()))
-			farmer.setNumCoffeePlots((int)Float.parseFloat(data[numCoffeePlotsColumnIndex].trim()));
+			farmer.setNumCoffeePlots((int) Float.parseFloat(data[numCoffeePlotsColumnIndex].trim()));
 		if (numCoffeeTreesColumnIndex != null && !"".equals(data[numCoffeeTreesColumnIndex].trim()))
-			farmer.setNumCoffeeTrees((int)Float.parseFloat(data[numCoffeeTreesColumnIndex].trim()));
+			farmer.setNumCoffeeTrees((int) Float.parseFloat(data[numCoffeeTreesColumnIndex].trim()));
 		if (farmAreaColumnIndex != null && !"".equals(data[farmAreaColumnIndex].trim()))
 			farmer.setFarmArea(Float.parseFloat(data[farmAreaColumnIndex].trim()));
 		if (coffeeAreaColumnIndex != null && !"".equals(data[coffeeAreaColumnIndex].trim()))
 			farmer.setCoffeeArea(Float.parseFloat(data[coffeeAreaColumnIndex].trim()));
 
-		farmer.setFarmerCode(data[farmerIdColumnIndex]);
+		String farmerCode = data[farmerIdColumnIndex] + "_" + data[farmerCodeColumnIndex];
+		farmer.setFarmerCode(farmerCode);
 		farmer.setCcCode(cc.getCode());
 		farmer.setCcName(cc.getName());
 
@@ -249,7 +268,8 @@ public class FarmerFileMetaData {
 		farmer.setFieldCoOrdinator(1L);
 
 		String userName = farmer.getFirstName().toLowerCase() + "_" + farmer.getLastName().toLowerCase() + "_"
-				+ cooperative.getName().toLowerCase() + "_" + farmer.getFarmerCode() + "@cropcert.org";
+				+ cooperative.getName().toLowerCase() + "_" + farmer.getFarmerCode() + "_" + farmer.getFarmerCode() + "_" + farmer.getCcCode()
+				+ "@cropcert.org";
 		String membershipId = userName;
 		farmer.setMembershipId(membershipId);
 		farmer.setUserName(userName);
@@ -270,6 +290,22 @@ public class FarmerFileMetaData {
 
 	public void setCcNameColumnName(String ccNameColumnName) {
 		this.ccNameColumnName = ccNameColumnName;
+	}
+
+	public String getCcCodeColumnName() {
+		return ccCodeColumnName;
+	}
+
+	public void setCcCodeColumnName(String ccCodeColumnName) {
+		this.ccCodeColumnName = ccCodeColumnName;
+	}
+	
+	public String getFarmerCodeColumnName() {
+		return farmerCodeColumnName;
+	}
+	
+	public void setFarmerCodeColumnName(String farmerCodeColumnName) {
+		this.farmerCodeColumnName = farmerCodeColumnName;
 	}
 
 	public String getFarmerIdColumnName() {

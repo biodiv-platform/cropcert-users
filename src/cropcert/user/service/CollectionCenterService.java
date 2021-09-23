@@ -79,4 +79,8 @@ public class CollectionCenterService extends AbstractService<CollectionCenter>{
 		return collectionCenterShows;
 	}
 
+	public CollectionCenter findByName(String name, String code) {
+		return ((CollectionCenterDao)dao).findByName(name, code);
+	}
+
 }
