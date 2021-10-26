@@ -22,7 +22,6 @@ import com.google.inject.Inject;
 import cropcert.user.filter.Permissions;
 import cropcert.user.filter.TokenAndUserAuthenticated;
 import cropcert.user.model.Inspector;
-import cropcert.user.model.UnionPerson;
 import cropcert.user.service.InspectorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,7 +43,7 @@ public class InspectorApi {
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get the Inspector by id", response = UnionPerson.class)
+	@ApiOperation(value = "Get the Inspector by id", response = Inspector.class)
 	public Response find(@Context HttpServletRequest request, @PathParam("id") Long id) {
 		Inspector inspector = inspectorService.findById(id);
 		if (inspector == null)
@@ -55,7 +54,7 @@ public class InspectorApi {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Save the inspector person", response = UnionPerson.class)
+	@ApiOperation(value = "Save the inspector person", response = Inspector.class)
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header") })
 	@TokenAndUserAuthenticated(permissions = { Permissions.ADMIN })
@@ -74,7 +73,7 @@ public class InspectorApi {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.TEXT_PLAIN)
-	@ApiOperation(value = "Delete the Inspector person by id", response = UnionPerson.class)
+	@ApiOperation(value = "Delete the Inspector person by id", response = Inspector.class)
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header") })
 	@TokenAndUserAuthenticated(permissions = { Permissions.ADMIN })

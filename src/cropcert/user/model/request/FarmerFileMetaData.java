@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.inject.Inject;
@@ -199,7 +200,7 @@ public class FarmerFileMetaData {
 		Farmer farmer = new Farmer();
 		farmer.setPassword(RandomStringUtils.randomAlphanumeric(8));
 
-		String[] names = data[nameColumnIndex].split("\\s+");
+		String[] names = StringUtils.split(data[nameColumnIndex]);
 		if (names.length > 0)
 			farmer.setFirstName(names[0]);
 		else
